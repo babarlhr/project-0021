@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_form_view">
+            <field name="name">wizard.form</field>
+            <field name="model">reverse_stock_move.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reverse stock move">
+                    Only "done" and unreversed moves can be reversed.
+                    <group>
+                        <field name="stock_moves_ids" readonly="True"/>
+                        <field name="process_move"/>
+                    </group>
+                    <footer>
+                        <button name="reverse" type="object"
+                                string="Reverse stock move(s)" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="launch_reverse_stock_move_wizard"
+                    name="Reverse stock move"
+                    src_model="stock.move"
+                    res_model="reverse_stock_move.wizard"
+                    view_mode="form"
+                    target="new"
+                    key2="client_action_multi"/>
+        <record id="view_move_form_reverse" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <data>
+                    <button name="action_cancel" position="after">
+                        <button name="%(launch_reverse_stock_move_wizard)d" states="done" string="Reverse Move" type="action"/>
+                    </button>
+                    <field name="origin" position="after">
+                        <field name="reversed_by_stock_move"/>
+                        <field name="reversed_stock_move_id"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

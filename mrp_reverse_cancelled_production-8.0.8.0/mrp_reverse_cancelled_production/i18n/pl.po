@@ -1,0 +1,38 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mrp_reverse_cancelled_production
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150519\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-25 14:48+0000\n"
+"PO-Revision-Date: 2016-05-25 16:50+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: pl\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: mrp_reverse_cancelled_production
+#: view:mrp.production:mrp_reverse_cancelled_production.mrp_production_form_view_reverse
+msgid "Cancel Production"
+msgstr "Anuluj Produkcję"
+
+#. module: mrp_reverse_cancelled_production
+#: view:mrp.production:mrp_reverse_cancelled_production.mrp_production_form_view_reverse
+msgid "Consumed Products"
+msgstr "Zużyte produkty"
+
+#. module: mrp_reverse_cancelled_production
+#: model:ir.model,name:mrp_reverse_cancelled_production.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Zamówienie produkcji"
+
+#. module: mrp_reverse_cancelled_production
+#: view:mrp.production:mrp_reverse_cancelled_production.mrp_production_form_view_reverse
+msgid "Unit of Measure"
+msgstr "Jednostka miary"

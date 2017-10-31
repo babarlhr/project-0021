@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_move_reverse
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150519\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-25 14:51+0000\n"
+"PO-Revision-Date: 2016-05-25 17:09+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: pl\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: stock_move_reverse
+#: view:reverse_stock_move.wizard:stock_move_reverse.wizard_form_view
+msgid "Cancel"
+msgstr "Anuluj"
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,create_uid:0
+msgid "Created by"
+msgstr "Utworzone przez"
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,create_date:0
+msgid "Created on"
+msgstr "Data utworzenia"
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_move_reverse
+#: field:stock.move,reversed_by_stock_move:0
+msgid "Is Reversed by Stock Move?"
+msgstr "Czy jest przesunięcie odwrotne?"
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Zmienione przez"
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Data zmiany"
+
+#. module: stock_move_reverse
+#: view:reverse_stock_move.wizard:stock_move_reverse.wizard_form_view
+msgid "Only \"done\" and unreversed moves can be reversed."
+msgstr "Jedynie przesunięcia \"gotowe\" i bez przesunięć odwrotnych mogą być odwrócone."
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,process_move:0
+msgid "Process reverse move(s) to 'done'?"
+msgstr "Wykonaj przesunięcie(a) odwrotne aż do 'gotowe'?"
+
+#. module: stock_move_reverse
+#: view:stock.move:stock_move_reverse.view_move_form_reverse
+msgid "Reverse Move"
+msgstr "Przesunięcie odwrotne"
+
+#. module: stock_move_reverse
+#: model:ir.actions.act_window,name:stock_move_reverse.launch_reverse_stock_move_wizard
+#: view:reverse_stock_move.wizard:stock_move_reverse.wizard_form_view
+msgid "Reverse stock move"
+msgstr "Przesunięcie odwrotne"
+
+#. module: stock_move_reverse
+#: view:reverse_stock_move.wizard:stock_move_reverse.wizard_form_view
+msgid "Reverse stock move(s)"
+msgstr "Odwróć przesunięcie(a)"
+
+#. module: stock_move_reverse
+#: field:stock.move,reversed_stock_move_id:0
+msgid "Reversed by Stock Move"
+msgstr "Przesunięcie odwrotne"
+
+#. module: stock_move_reverse
+#: model:ir.model,name:stock_move_reverse.model_stock_move
+msgid "Stock Move"
+msgstr "Przesunięcie"
+
+#. module: stock_move_reverse
+#: field:reverse_stock_move.wizard,stock_moves_ids:0
+msgid "Stock Moves"
+msgstr "Przesunięcia"
+
+#. module: stock_move_reverse
+#: view:reverse_stock_move.wizard:stock_move_reverse.wizard_form_view
+msgid "or"
+msgstr "lub"

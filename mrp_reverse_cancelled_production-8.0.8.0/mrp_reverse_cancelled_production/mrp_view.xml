@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="mrp_production_form_view_reverse" model="ir.ui.view" >
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <data>
+                    <button name="action_cancel" position="replace">
+                        <button name="action_cancel" type="object" states="confirmed,done" string="Cancel Production"/>
+                    </button>
+                    <tree string="Consumed Products" position="replace">
+                        <tree colors="blue:reversed_by_stock_move==True;red:scrapped==True;blue:state == 'draft';black:state in ('confirmed','ready','in_production');gray:state == 'cancel' " string="Consumed Products">
+                           <field name="product_id" readonly="1"/>
+                           <field name="restrict_lot_id" context="{'product_id': product_id}" groups="stock.group_production_lot"/>
+                           <field name="product_uom_qty" readonly="1"/>
+                           <field name="product_uom" readonly="1" string="Unit of Measure" groups="product.group_uom"/>
+                           <field name="location_dest_id"  readonly="1" string="Destination Loc." widget="selection" groups="stock.group_locations"/>
+                            <field name="state" invisible="1"/>
+                           <field name="scrapped" invisible="1"/>
+                           <field name="reversed_by_stock_move" invisible="1"/>
+                       </tree>
+                    </tree>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>
