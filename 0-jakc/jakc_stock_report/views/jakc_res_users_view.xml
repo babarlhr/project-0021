@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_project_0021_res_users_form_inherit_view">
+            <field name="name">jakc.project.0021.res.users.form.inherit.view</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Stock">
+                        <group>
+                            <field name="iface_receive_notification"/>
+                        </group>
+                    </page>
+                </notebook>
+
+            </field>
+        </record>
+    </data>
+</openerp>

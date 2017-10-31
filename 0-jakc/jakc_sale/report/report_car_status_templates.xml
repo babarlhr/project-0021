@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <template id="car_status_report_layout">
+            <t t-raw="0" />
+         </template>
+
+        <template id="report_sale_order_car_status_document">
+            <t t-call="jakc_sale.car_status_report_layout">
+                <!--<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />-->
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-6">
+
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <center>SURAT KELUAR KENDARAAN</center>
+                                <hr/>
+                                <center>ANDARU MOTOR</center>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <center><span><h3>KENDARAAN INI DIIJINKAN UNTUK KELUAR AREA BENGKEL</h3></span></center>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>NO POLISI</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="o.partner_vehicle_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>MERK/JENIS KENDARAAN</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="o.partner_vehicle_id.vehicle_brand_type_id.name"/>
+                                </div>
+                            </div>
+                            <t t-if="o.iface_insurance == True">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <span>TGL BAYAR OR</span>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <t t-if="o.or_paid_status">
+                                            <span t-esc="datetime.datetime.strptime(o.or_invoice.move_id.date,'%Y-%m-%d').strftime('%d/%m/%Y')"/>
+                                        </t>
+                                        <t t-if="not o.or_paid_status">
+                                            <span>Belum dibayar</span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <span></span>
+                            </div>
+                            <div class="row">
+                                <span></span>
+                            </div>
+                            <t t-if="o.iface_insurance == True">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <span>NILAI OR</span>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <span t-esc="o.or_invoice.amount_total"/>
+                                    </div>
+                                </div>
+                            </t>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <t t-if="o.car_status_str == 'Selesai Perbaikan'">
+                            <div class="col-xs-6">
+                                 <span class="glyphicon glyphicon-check"></span>
+                                 <span>SELESAI PERBAIKAN</span>
+                            </div>
+                            <div class="col-xs-6">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <span>RAWAT JALAN</span>
+                            </div>
+                        </t>
+                        <t t-if="o.car_status_str == 'Rawat Jalan'">
+                            <div class="col-xs-6">
+                                 <span class="glyphicon glyphicon-unchecked"></span>
+                                 <span>SELESAI PERBAIKAN</span>
+                            </div>
+                            <div class="col-xs-6">
+                                <span class="glyphicon glyphicon-check"></span>
+                                <span>RAWAT JALAN</span>
+                            </div>
+                        </t>
+                        <t t-if="o.car_status_str == 'No Status'">
+                            <div class="col-xs-6">
+                                 <span class="glyphicon glyphicon-unchecked"></span>
+                                 <span>SELESAI PERBAIKAN</span>
+                            </div>
+                            <div class="col-xs-6">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <span>RAWAT JALAN</span>
+                            </div>
+                        </t>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>DICETAK OLEH</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="user.name"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <span>TANGGAL</span>
+                                </div>
+                                <div class="col-xs-8">
+                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                         <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                     <span>KET</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="o.car_status.remark"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <center><span>SERAHKAN SURAT INI KEPADA PETUGAS KEAMANAN SAAT KELUAR</span></center>
+                    </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="report_saleorder_car_status">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="jakc_sale.report_sale_order_car_status_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

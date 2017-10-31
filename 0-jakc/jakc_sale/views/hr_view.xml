@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_project_0021_hr_employee_form_inherit_view">
+            <field name="name">jakc.project.0021.hr_employee.form.inherit.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Workcenter">
+                        <field name="workcenter_line_ids">
+                            <tree>
+                                <field name="line_id"/>
+                                <field name="workingdate"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem name="Fee" id="menu_hr_fee" parent="hr.menu_hr_root" groups="base.group_user" sequence="1"/>
+
+
+         <record model="ir.ui.view" id="view_hr_employee_periode_fee_tree">
+            <field name="name">hr.employee.periode.fee.tree</field>
+            <field name="model">hr.employee.periode.fee</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+               <tree string="Periode Fee">
+                   <field name="name"/>
+                   <field name="date_start"/>
+                   <field name="date_end"/>
+                   <field name="state"/>
+               </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_employee_periode_fee_form">
+            <field name="name">hr.employee.periode.fee.form</field>
+            <field name="model">hr.employee.periode.fee</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Periode Fee" create="0">
+                   <header>
+                       <button name="process_operator_fee" string="Process" state="open" type="object"/>
+                       <field name="state" widget="statusbar" statusbar_visible="open,done" statusbar_colors='{"confirmed":"blue"}'/>
+                   </header>
+                   <sheet>
+                       <group>
+                           <field name="name"/>
+                           <field name="date_start"/>
+                           <field name="date_end"/>
+                       </group>
+                       <notebook>
+                           <page string="Workcenter Line">
+                               <field name="workcenter_line_ids">
+                                    <tree>
+                                        <field name="sale_order_id"/>
+                                        <field name="line_id"/>
+                                        <field name="operator"/>
+                                        <field name="workingdate"/>
+                                        <field name="operator_fee"/>
+                                    </tree>
+                               </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+            </field>
+        </record>
+
+        <record id="act_hr_employee_periode_fee" model="ir.actions.act_window">
+            <field name="name">Periode Fee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.periode.fee</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <menuitem id="menu_hr_employee_periode_fee"
+                  name="Periode Fee"
+                  parent="menu_hr_fee"
+                  action="act_hr_employee_periode_fee"
+                  sequence="3"/>
+
+    </data>
+</openerp>

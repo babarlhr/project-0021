@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <template id="spk_report_layout">
+            <t t-raw="0" />
+         </template>
+
+        <template id="material_report_layout">
+            <t t-raw="0" />
+         </template>
+
+        <template id="report_sale_order_workshop_document">
+            <t t-call="jakc_sale.spk_report_layout">
+                <!--<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />-->
+                <div class="page">
+                    <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h3>SURAT PERINTAH KERJA</h3>
+                            </div>
+                            <div class="col-xs-6">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <strong><p t-field="o.partner_vehicle_id.name"/></strong>
+                                <table>
+                                    <tr>
+                                        <td>No Polis</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.insurance_number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tgl. Registrasi Klaim</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.claim_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Klaim</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.claim_number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pemilik Kendaraan</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.partner_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <td>No SPK</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>No SPK Sebelumnya</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.last_spk.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tgl. Aktual Masuk</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.date_order"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tgl. Cetak</td>
+                                        <td>:</td>
+                                        <td><span t-esc="datetime.datetime.now()"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Estimasi Selesai</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.estimate_finish_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Surveyor</td>
+                                        <td>:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SA</td>
+                                        <td>:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>OR #</td>
+                                        <td>:</td>
+                                        <td><span t-esc="or_count"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <td>Alamat Rumah</td>
+                                        <td>:</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <td>Alamat Kantor</td>
+                                        <td>:</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                        <br/>
+                        <hr/>
+                        <div class="row">
+                        <div class="col-xs-6">
+                            <table>
+                                <tr>
+                                    <td>Vechile Category</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.vehicle_category_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Vechile Type</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.vehicle_type_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Vechile Color</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.vehicle_color"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Vechile Chassis</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.chassis_number"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table>
+                                <tr>
+                                    <td>Damage Type</td>
+                                    <td>:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Brand/Type</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.vehicle_brand_id.name"/>/<span t-field="o.partner_vehicle_id.vehicle_brand_type_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Year</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.manufacture_year"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Machine #</td>
+                                    <td>:</td>
+                                    <td><span t-field="o.partner_vehicle_id.machine_sn"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                        <div class="col-xs-6">
+                            <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Work Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <t t-foreach="o.order_line" t-as="l">
+                                     <t t-if="l.product_id.iface_worktype">
+                                         <tr>
+                                             <td>
+                                                 <span t-field="l.product_id.name"/>
+                                             </td>
+                                         </tr>
+                                     </t>
+                                 </t>
+                            </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Sparepart</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <t t-foreach="o.order_line" t-as="l">
+                                     <t t-if="not l.product_id.iface_worktype">
+                                         <tr>
+                                             <td>
+                                                 <span t-field="l.product_id.name"/>
+                                             </td>
+                                         </tr>
+                                     </t>
+                                 </t>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="report_saleorder_workshop">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="jakc_sale.report_sale_order_workshop_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="report_work_order_material_document">
+            <t t-call="jakc_sale.material_report_layout">
+                <div class="page">
+                    <div class="oe_structure">
+                        <div class="row">
+                            <center><h3>FORM SPB</h3></center>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <table>
+                                    <tr>
+                                        <td>No. SPK</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>No. Polisi</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.partner_vehicle_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tipe Kendaraan</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.partner_vehicle_id.vehicle_type_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-xs-6">
+                                <table>
+                                    <tr>
+                                        <td>Kategori Kerusakan</td>
+                                        <td>:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jumlah Panel</td>
+                                        <td>:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kategori Kendaraan</td>
+                                        <td>:</td>
+                                        <td><span t-esc="o.partner_vehicle_id.vehicle_category_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>NO</th>
+                                            <th>BAHAN</th>
+                                            <th>QTY</th>
+                                            <th>QTY AMBIL</th>
+                                            <th>TGL AMBIL</th>
+                                            <th>MEKANIK</th>
+                                            <th>NOTES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="no" t-value="0"/>
+                                        <t t-foreach="o.production_ids" t-as="production">
+                                            <t t-foreach="production.workcenter_lines" t-as="line">
+                                                <t t-foreach="line.product_line" t-as="product">
+                                                    <t t-set="no" t-value="no + 1"/>
+                                                    <tr>
+                                                        <td><span t-esc="no"/></td>
+                                                        <td><span t-esc="product.product_id.name"/></td>
+                                                        <td><span t-esc="product.product_qty"/></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <span>Penambahan</span>
+                        </div>
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>BAHAN</th>
+                                        <th>QTY</th>
+                                        <th>QTY AMBIL</th>
+                                        <th>TGL AMBIL</th>
+                                        <th>MEKANIK</th>
+                                        <th>NOTES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                     <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                     <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                     <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                     <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                     <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <span>Notes :</span>
+                        </div>
+                        <div class="row">
+                            <span>* Jika ada pengambilan bahan lebih dari standard wajib di tanda tangan oleh kepala produksi / kepala bengkel</span>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+         <template id="report_workorder_material">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="jakc_sale.report_work_order_material_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

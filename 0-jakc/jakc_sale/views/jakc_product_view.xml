@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_jakc_sale_product_template_inherit_form">
+            <field name="name">view.jakc.sale.product.template.inherit.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="jakc_workshop.jakc_project_0021_product_template_inherit_view"/>
+            <field name="arch" type="xml">
+                <field name="iface_worktype" position="after">
+                    <field name="fee_percentage" attrs="{'invisible':[('iface_worktype','=',False)],'required':1}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

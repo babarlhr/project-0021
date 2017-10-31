@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="account_move_report_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_account.account_move_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_account.account_move_external_layout_footer"/>
+        </template>
+
+        <template id="account_move_external_layout_header">
+            <div class="header">
+                <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <span t-field="company.name"/>
+                                    </div>
+                                    <div class="row">
+                                         <span t-field="company.street"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+
+                        </div>
+                    </div>
+            </div>
+        </template>
+
+        <template id="account_move_external_layout_footer">
+            <div class="footer">
+                <div class="row">
+
+                </div>
+            </div>
+        </template>
+
+        <template id="report_account_move_document">
+            <t t-call="jakc_account.account_move_report_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h3>Journal Entry</h3>
+                        </div>
+                        <div class="col-xs-6">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    Journal
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="o.journal_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    Reference
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="o.name"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Partner</th>
+                                <th>Account</th>
+                                <th>Label</th>
+                                <th class="text-right">Debit (Rp)</th>
+                                <th class="text-right">Credit (Rp)</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <tr t-foreach="o.line_ids" t-as="l">
+                                <t t-if="l.debit > 0">
+                                    <td><span t-field="l.partner_id"/></td>
+                                    <td><span t-field="l.account_id"/></td>
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-right">
+                                        <span t-field="l.debit"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span>-</span>
+                                    </td>
+                                    <td><span t-field="l.date_maturity"/></td>
+                                </t>
+                            </tr>
+                            <tr t-foreach="o.line_ids" t-as="l">
+                                <t t-if="l.credit > 0">
+                                    <td><span t-field="l.partner_id"/></td>
+                                    <td><span t-field="l.account_id"/></td>
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-right">
+                                        <span>-</span>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.credit"/>
+                                    </td>
+                                    <td><span t-field="l.date_maturity"/></td>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_accountmove">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="jakc_account.report_account_move_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

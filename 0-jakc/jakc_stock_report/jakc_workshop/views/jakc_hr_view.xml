@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_project_0021_hr_employee_inherit_view">
+            <field name="name">jakc.project.0021.hr.employee.inherit.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="identification_id" position="before">
+                    <field name="nik"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

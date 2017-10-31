@@ -1,0 +1,8 @@
+.pos .paymentline .card-button{
+    cursor: pointer;
+    text-align: center;
+}
+
+.pos .paymentline .card-button .cardnumber{
+	font-size: 8px;
+}

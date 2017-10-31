@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="mrp_workcenter_form_view_inh" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form.inh</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view" />
+            <field name="arch" type="xml">
+                <field name="time_start" position="after">
+                    <field name="pre_op_product" />
+                </field>
+                <field name="time_stop" position="after">
+                    <field name="post_op_product" />
+                </field>
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page string="Operators"
+                        groups="mrp_operations_extension.group_mrp_workers">
+                        <group colspan="4">
+                            <field name="op_number" />
+                            <field name="op_avg_cost" />
+                        </group>
+                        <field name="operators" />
+                    </page>
+                    <page string="Routing Operations">
+                        <field name="rt_operations" nolabel="1" />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="workcenter_line_inh_form_view">
+            <field name="name">Workcenter line inh</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit" />
+            <field name="arch" type="xml">
+                <field name="workcenter_id" position="before">
+                    <field name="possible_workcenters" invisible="1"/>
+                </field>
+                <button name="button_cancel" position="after">
+                    <button name="action_assign" states="startworking"
+                        string="Check Availability" type="object" class="oe_highlight" />
+                    <button name="force_assign" states="startworking"
+                        string="Force Reservation" type="object" />
+                    <button name='%(act_mrp_work_order_produce)d'
+                        type='action' string='Produce'
+                        attrs="{'invisible':[('state','in',['draft','cancel','pause','done'])]}"/>
+                    <button name='%(act_mrp_work_order_consume)d'
+                        type='action' string='Consume'
+                        attrs="{'invisible':[('state','in',['draft','cancel','pause','done'])]}"/>
+                </button>
+                <xpath expr="//notebook/page[1]" position="inside">
+                    <group string="Product Lines" colspan="4" col="4">
+                        <field name="product_line" nolabel="1"
+                            colspan="4" col="4" readonly="1"/>
+                    </group>
+                    <group string="Stock Moves" colspan="4" col="4">
+                        <field name="move_lines" nolabel="1"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Extra Information">
+                        <group>
+                            <group string="Planned Date">
+                                <field name="date_planned" />
+                                <field name="date_planned_end" />
+                            </group>
+                            <group string="Duration">
+                                <field name="cycle" />
+                                <field name="hour" widget="float_time" />
+                            </group>
+                            <group string="Actual Production Date">
+                                <field name="date_start" readonly="1" />
+                                <field name="date_finished"
+                                    readonly="1" />
+                                <field name="delay" widget="float_time" />
+                            </group>
+                            <group string="Product to Produce">
+                                <field name="product" />
+                                <field name="qty" />
+                                <field name="uom" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                <field name="sequence" position="after">
+                    <field name="do_production" />
+                    <field name="is_material_ready" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

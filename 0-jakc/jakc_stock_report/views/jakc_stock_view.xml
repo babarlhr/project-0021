@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_project_0021_stock_picking_form_inherit_view">
+            <field name="name">jakc.project.0021.stock_picking.form.inherit.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='do_print_picking']" position="replace">
+                    <button name="do_print_picking" string="Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': [('state', 'not in', ('assigned', 'partially_available', 'done'))]}"/>
+                </xpath>
+
+                <field name="location_dest_id" position="after">
+                    <field name="printed_num"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

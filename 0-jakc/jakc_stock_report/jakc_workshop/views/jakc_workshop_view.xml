@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<openerp>
+    <data>
+
+        <!-- WORKSHOP/VEHICLE CATEGORY -->
+
+        <record model="ir.ui.view" id="view_vehicle_category_form">
+            <field name="name">vehicle.category.form</field>
+            <field name="model">vehicle.category</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Category">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vehicle_category_tree">
+            <field name="name">vehicle.category.tree</field>
+            <field name="model">vehicle.category</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Line">
+	            	<field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/VECHILE TYPE -->
+
+        <record model="ir.ui.view" id="view_vehicle_type_form">
+            <field name="name">vehicle.type.form</field>
+            <field name="model">vehicle.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Type">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vehicle_type_tree">
+            <field name="name">vehicle.type.tree</field>
+            <field name="model">vehicle.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Type">
+	            	<field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- WORKSHOP/VECHILE BRAND -->
+
+        <record model="ir.ui.view" id="view_vehicle_brand_form">
+            <field name="name">vehicle.brand.form</field>
+            <field name="model">vehicle.brand</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Brand">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vehicle_brand_tree">
+            <field name="name">vehicle.brand.tree</field>
+            <field name="model">vehicle.brand</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Brand">
+	            	<field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/VECHILE BRAND TYPE -->
+
+        <record model="ir.ui.view" id="view_vehicle_brand_type_form">
+            <field name="name">vehicle.brand.type.form</field>
+            <field name="model">vehicle.brand.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Brand Type">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vehicle_brand_type_tree">
+            <field name="name">vehicle.brand.type.tree</field>
+            <field name="model">vehicle.brand.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Brand Type">
+	            	<field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/VECHILE DAMAGE TYPE -->
+
+        <record model="ir.ui.view" id="view_vehicle_damage_type_form">
+            <field name="name">vehicle.damage.type.form</field>
+            <field name="model">vehicle.damage.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Damage Type">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vehicle_damage_type_tree">
+            <field name="name">vehicle.damage.type.tree</field>
+            <field name="model">vehicle.damage.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Damage Type">
+	            	<field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- WORKSHOP/VECHILE WORK TYPE -->
+
+        <record model="ir.ui.view" id="view_vehicle_work_type_form">
+            <field name="name">Work Type</field>
+            <field name="model">vehicle.work.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Work Type">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                    </group>
+	                    <notebook>
+	                        <page string="Stages">
+	                            <field name="work_type_stage_ids">
+	                                <tree>
+	                                    <field name="name"/>
+	                                    <field name="duration"/>
+	                                    <field name="comment"/>
+	                                </tree>
+	                            </field>
+	                        </page>
+	                    </notebook>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vehicle_work_type_tree">
+            <field name="name">vehicle.work.type.tree</field>
+            <field name="model">vehicle.work.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Work Type">
+	            	<field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- WORKSHOP/VECHILE WORK TYPE STAGE-->
+
+        <record model="ir.ui.view" id="view_vehicle_work_type_stage_form">
+            <field name="name">Work Type Stage</field>
+            <field name="model">vehicle.work.type.stage</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Work Type Stage">
+                	<sheet>
+	                    <group>
+	                        <field name="name"/>
+	                        <field name="sequence"/>
+	                        <field name="duration"/>
+	                        <field name="comment" widget="html"/>
+	                    </group>
+	                    <notebook>
+	                        <page string="Materials">
+	                            <field name="work_type_stage_material_ids">
+	                                <tree>
+	                                    <field name="product_id"/>
+	                                    <field name="quantity"/>
+	                                </tree>
+	                            </field>
+	                        </page>
+	                    </notebook>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+
+         <!-- WORKSHOP/VECHILE WORK TYPE STAGE MATERIAL-->
+
+        <record model="ir.ui.view" id="view_vehicle_work_type_stage_material_form">
+            <field name="name">Work Type Stage Material</field>
+            <field name="model">vehicle.work.type.stage.material</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Work Type Stage">
+                	<sheet>
+	                    <group>
+	                        <field name="product_id"/>
+	                        <field name="quantity"/>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/PARTNER VEHICLE -->
+
+        <record model="ir.ui.view" id="view_partner_vehicle_form">
+            <field name="name">Partner Vehicle</field>
+            <field name="model">partner.vehicle</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Partner Vehicle">
+                	<sheet>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Plat Number"/>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Plat Number"/>
+                            </h1>
+                        </div>
+	                    <group>
+	                        <group>
+                                <field name="vehicle_category_id"/>
+                                <field name="vehicle_type_id"/>
+                                <field name="vehicle_color"/>
+                                <field name="chassis_number"/>
+                                <field name="vehicle_brand_id"/>
+                                <field name="vehicle_brand_type_id"/>
+                                <field name="manufacture_year"/>
+                                <field name="machine_sn"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="image" widget="image"/>
+                            </group>
+	                    </group>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_partner_vehicle_tree">
+            <field name="name">Partner Vehicle</field>
+            <field name="model">partner.vehicle</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Vehicle">
+	            	<field name="name"/>
+                    <field name="partner_id"/>
+	                <field name="vehicle_category_id"/>
+	                <field name="vehicle_type_id"/>
+	                <field name="vehicle_color"/>
+                    <field name="chassis_number"/>
+                    <field name="vehicle_brand_id"/>
+                    <field name="vehicle_brand_type_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_vehicle_filter" model="ir.ui.view">
+            <field name="name">partner.vehicle.list.select</field>
+            <field name="model">partner.vehicle</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner Vehicle">
+                    <field name="name" string="Plat Number"/>
+                    <field name="partner_id" operator="child_of"/>
+               </search>
+            </field>
+        </record>
+
+
+		<!-- ACTION -->
+		<!-- VEHICLE CATEGORY-->
+		<record model="ir.actions.act_window" id="vehicle_category_action">
+            <field name="name">vehicle.category.action</field>
+            <field name="res_model">vehicle.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Vehicle Category
+                </p>
+            </field>
+        </record>
+
+		<!-- VEHICLE TYPE -->
+		<record model="ir.actions.act_window" id="vehicle_type_action">
+            <field name="name">vehicle.type.action</field>
+            <field name="res_model">vehicle.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Vehicle Type
+                </p>
+            </field>
+        </record>
+
+        <!-- VEHICLE BRAND -->
+		<record model="ir.actions.act_window" id="vehicle_brand_action">
+            <field name="name">Vehicle Brand</field>
+            <field name="res_model">vehicle.brand</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Vehicle Brand
+                </p>
+            </field>
+        </record>
+
+        <!-- VEHICLE BRAND TYPE-->
+		<record model="ir.actions.act_window" id="vehicle_brand_type_action">
+            <field name="name">vehicle.brand.type.action</field>
+            <field name="res_model">vehicle.brand.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Vehicle Brand Type
+                </p>
+            </field>
+        </record>
+
+        <!-- VEHICLE DAMAGE TYPE-->
+		<record model="ir.actions.act_window" id="vehicle_damage_type_action">
+            <field name="name">vehicle.damage.type.action</field>
+            <field name="res_model">vehicle.damage.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Vehicle Damage Type
+                </p>
+            </field>
+        </record>
+
+        <!-- VEHICLE WORK TYPE-->
+		<record model="ir.actions.act_window" id="vehicle_work_type_action">
+            <field name="name">Work Type</field>
+            <field name="res_model">vehicle.work.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Vehicle Work Type
+                </p>
+            </field>
+        </record>
+
+         <!-- PARTNER VEHICLE-->
+		<record model="ir.actions.act_window" id="partner_vehicle_action">
+            <field name="name">Customer Vehicle</field>
+            <field name="res_model">partner.vehicle</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_vehicle_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the First Partner Vehicle
+                </p>
+            </field>
+        </record>
+
+
+  	</data>
+</openerp>

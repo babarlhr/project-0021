@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="report_account_voucher"
+            string="Account Voucher"
+            model="account.voucher"
+            report_type="qweb-pdf"
+            file="jakc_account_voucher.report_accountvoucher"
+            name="jakc_account_voucher.report_accountvoucher"
+        />
+
+        <record id="paperformat_account_voucher_custom" model="report.paperformat">
+            <field name="name">Account Voucher Custom</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">147</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="jakc_account_voucher.report_account_voucher" model="ir.actions.report.xml">
+                <field name="paperformat_id" ref="jakc_account_voucher.paperformat_account_voucher_custom"/>
+        </record>
+    </data>
+</openerp>

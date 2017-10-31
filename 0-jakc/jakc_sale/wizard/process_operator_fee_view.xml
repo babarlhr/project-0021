@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="wizard_process_operator_fee_form_view" model="ir.ui.view">
+            <field name="name">wizard.process.operator.fee.form</field>
+            <field name="model">process.operator.fee</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Process Operator Fee">
+                    <div>
+                        Please click Process Button to continue !
+                    </div>
+                    <footer>
+                        <button name="process_operator_fee" type="object" string="Process" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="act_process_operator_fee" model="ir.actions.act_window">
+            <field name="name">Process Fee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">process.operator.fee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_process_operator_fee_form_view"/>
+        </record>
+
+
+
+
+    </data>
+</odoo>

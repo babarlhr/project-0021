@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="jakc_sale_mrp_production_form_view" model="ir.ui.view">
+            <field name="name">jakc.sale.mrp.production.form.view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='state']" position="after">
+                    <button name="move_consume_2"
+                            string="Consume Products" type="object"
+                            icon="terp-gtk-select-all" context="{'consume': True}"
+                            states="assigned"
+                    />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="wizard_add_image_form_view" model="ir.ui.view">
+            <field name="name">wizard.add.image.form</field>
+            <field name="model">wizard.add.image</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Add Image">
+                    <group>
+                        <field name="attachment" widget="image"/>
+                        <field name="state" widget="radio"/>
+                    </group>
+                     <footer>
+                        <button name="add_image" type="object" string="Add Image" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="act_add_image" model="ir.actions.act_window">
+            <field name="name">Add Image</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.add.image</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_add_image_form_view"/>
+        </record>
+
+    </data>
+</odoo>

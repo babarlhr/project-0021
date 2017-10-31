@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_project_0021_account_invoice_form_inherit_view">
+            <field name="name">jakc.project.0021.account.invoice.form.inherit.view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/*" position="after">
+                    <button name="invoice_print" string="Print Invoice" type="object" states="paid" groups="base.group_user"/>
+                </xpath>
+                <field name="payment_term_id" position="after">
+                    <field name="printed_num"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

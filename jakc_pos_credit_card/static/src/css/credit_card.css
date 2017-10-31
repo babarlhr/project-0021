@@ -1,0 +1,25 @@
+.pos .paymentline .card-button{
+    cursor: pointer;
+    text-align: center;
+}
+
+.pos .paymentline .card-button .cardnumber{
+	font-size: 8px;
+}
+
+/* d) The NFC screen */
+
+.pos .nfc-screen .nfcid{
+    text-align: center;
+    font-size: 26px;
+    padding: 10px;
+    margin: 10px;
+    disabled: true;
+}
+
+.pos .nfc-screen .nfcname{
+    text-align: center;
+    font-size: 26px;
+    padding: 10px;
+    margin: 10px;
+}

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+
+    <t t-name="CreditCardPaymentScreenWidget">
+        <div class="creditcard-payment-screen screen">
+            <div class="creditcard-payment-content">
+                <div class="top-content">
+                    <span class='button back-card'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Back
+                    </span>
+                    <h1>Card Transaction</h1>
+                    <span class='button next-card'>
+                        Confirm
+                        <i class='fa fa-angle-double-right'></i>
+                    </span>
+                </div>
+
+                <div class="centered-content">
+                    <div class="cardnumber">
+                        <input class='card-number' placeholder="Card Number"></input>
+                    </div>
+                     <div class="cardowner">
+                        <input class='card-owner' placeholder="Card Owner"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="PaymentScreen-Paymentlines">
+   		<t t-jquery = ".paymentlines" t-operation="replace">
+            <table class='paymentlines'>
+                <colgroup>
+                    <col class='due' />
+                    <col class='tendered' />
+                    <col class='change' />
+                    <col class='method' />
+		    		<col class='controls' />
+                    <col class='controls' />
+                </colgroup>
+                <thead>
+                    <tr class='label'>
+                        <th>Due</th>
+                        <th>Tendered</th>
+                        <th>Change</th>
+                        <th>Method</th>
+						<th></th>	
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach='paymentlines' t-as='line'>
+                        <t t-if='line.selected'>
+                            <tr class='paymentline selected'>
+                                <td class='col-due'> <t t-esc='widget.format_currency_no_symbol(order.get_due(line))' /> </td>
+                                <td class='col-tendered edit'> 
+                                    <t t-esc='widget.inputbuffer' />
+                                    <!-- <t t-esc='line.get_amount()' /> -->
+                                </td>
+                                <t t-if='order.get_change(line)'>
+                                    <td class='col-change highlight' > 
+                                        <t t-esc='widget.format_currency_no_symbol(order.get_change(line))' />
+                                    </td>
+                                </t>
+                                <t t-if='!order.get_change(line)'>
+                                    <td class='col-change' ></td>
+                                </t>
+                                    
+                                <td class='col-name' > <t t-esc='line.name' /> </td>
+								<t t-if="line.cashregister.journal.iface_card">
+                               		<td class='card-button' t-att-data-cid='line.cid'> <i class='fa fa-credit-card' /><p class='cardnumber'><t t-esc='line.cardnumber'/></p></td>
+								</t>
+								<t t-if="!line.cashregister.journal.iface_card">
+									<td></td>
+								</t>
+                                <td class='delete-button' t-att-data-cid='line.cid'> <i class='fa fa-times-circle' /> </td>
+                            </tr>
+                        </t>
+                        <t t-if='!line.selected'>
+                            <tr class='paymentline' t-att-data-cid='line.cid'>
+                                <td class='col-due'> <t t-esc='widget.format_currency_no_symbol(order.get_due(line))' /> </td>
+                                <td class='col-tendered'> <t t-esc='widget.format_currency_no_symbol(line.get_amount())' /> </td>
+                                <td class='col-change'> 
+                                    <t t-if='order.get_change(line)'>
+                                        <t t-esc='widget.format_currency_no_symbol(order.get_change(line))' />
+                                     </t>
+                                </td>
+                                <td class='col-name'> <t t-esc='line.name' /> </td>
+								<t t-if="line.cashregister.journal.iface_card">
+	                               	<td class='card-button' t-att-data-cid='line.cid'> <i class='fa fa-credit-card' /> <t t-esc='line.cardnumber'/></td>
+								</t>
+								<t t-if="!line.cashregister.journal.iface_card">
+									<td></td>
+								</t>
+                                <td class='delete-button' t-att-data-cid='line.cid'> <i class='fa fa-times-circle' /> </td>
+                            </tr>
+                        </t>
+                    </t>
+                    <t t-if='extradue'>
+                        <tr class='paymentline extra' t-att-data-cid='0'>
+                            <td class='col-due'> <t t-esc='widget.format_currency_no_symbol(extradue)' /> </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>   		    		   
+   		</t>
+    </t>
+
+</templates>

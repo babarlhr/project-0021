@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_company_inherit_form">
+            <field name="name">res.company.form.inherit</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Manufacture">
+                        <group>
+                            <field name="routing_wc"/>
+                            <field name="or_amount"/>
+                            <field name="iface_auto_reserve"/>
+                        </group>
+                    </page>
+                    <page string="Sparepart">
+                        <group>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="move_type"/>
+                            <field name="picking_type_id"/>
+                            <field name="priority"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

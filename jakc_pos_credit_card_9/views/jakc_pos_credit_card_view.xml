@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_pos_credit_card_form">
+            <field name="name">pos.credit.card.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="point_of_sale.view_account_journal_pos_user_form"/>
+            <field name="arch" type="xml">
+                <field name="amount_authorized_diff" position="after">
+                	<field name="iface_card"/>
+                </field>
+            </field>            
+        </record>
+        
+        <record id="view_pos_order_pos_credit_card_form" model="ir.ui.view">
+          <field name="name">POS orders</field>
+          <field name="model">pos.order</field>
+          <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount']" position="before">
+              <field name="cardnumber"/>
+              <field name="cardowner"/>
+            </xpath>
+          </field>
+        </record>
+    </data>    
+</openerp>

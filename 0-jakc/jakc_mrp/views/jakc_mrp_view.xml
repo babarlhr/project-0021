@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_jakc_mrp_mrp_bom_form_inherit">
+            <field name="name">jakc.mrp.mrp.bom.form.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+            <field name="arch" type="xml">
+                <field name="routing_id" position="after">
+                    <field name="bom_cost"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
+

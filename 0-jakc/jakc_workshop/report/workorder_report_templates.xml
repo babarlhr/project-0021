@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_workorder_document">
+            <t t-call="report.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Plat Number:</strong><p t-field="doc.partner_vehicle_id.name"/>
+                            <strong>Customer:</strong><p t-field="doc.partner_id.name"/>
+                        </div>
+                        <div class="col-xs-6">
+                            <strong>WO Number:</strong><p t-field="doc.name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table>
+                                <tr>
+                                    <td>Vechile Category</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.vehicle_category_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Vechile Type</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.vehicle_type_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Vechile Color</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.vehicle_color"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Vechile Chassis</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.chassis_number"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table>
+                                <tr>
+                                    <td>Damage Type</td>
+                                    <td>:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Brand/Type</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.vehicle_brand_id.name"/>/<span t-field="doc.partner_vehicle_id.vehicle_brand_type_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Year</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.manufacture_year"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Machine #</td>
+                                    <td>:</td>
+                                    <td><span t-field="doc.partner_vehicle_id.machine_sn"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Work Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <t t-foreach="doc.workorder_line_ids" t-as="l">
+                                    <tr>
+                                        <td>
+                                            <span t-field="l.product_id.name"/>
+                                        </td>
+                                    </tr>
+                                 </t>
+                            </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                        </div>
+                    </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="report_workorder">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="jakc_workshop.report_workorder_document" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

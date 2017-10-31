@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<openerp>
+    <data>
+
+        <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/jakc_sale/static/src/css/jakc_sale.css"/>
+            </xpath>
+        </template>
+
+    	<template id="line">
+    		<html class="full">
+            <head>
+	            <t t-set="title">Line Display</t>
+			    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+			    <!-- Latest compiled and minified CSS -->
+				<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap.min.css"></link>
+			   	<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap-theme.min.css"></link>
+                <link rel="stylesheet" href="/jakc_process_line/static/src/css/grid.css"></link>
+				<!-- jQuery library -->
+                <!-- Custom CSS -->
+                <style type="text/css">
+                    .row div
+                    {
+                        padding:10px;
+                    }
+                    .bgStyle1
+                    {
+                        background-color:lavender;
+                        font-size: 48px;
+                    }
+                    .bgStyle2
+                    {
+                        background-color:lavenderblush;
+                        font-size: 48px;
+                    }
+                    .bgStyle3
+                    {
+                        background-color:lightgoldenrodyellow;
+                    }
+                    .bgStyle4
+                    {
+                        background-color:lightgray;
+                    }
+                    .titleStyle
+                    {
+                        background-color:#6f5499;
+                        color:#fff;
+                        padding: 0 10px 10px 10px;
+                        font-size: 64px;
+                    }
+                </style>
+	      	</head>
+	      	<body>
+                  <input id="displaycode" type="hidden" t-att-value="displaycode"/>
+                  <div class="container">
+                        <div class="row titleStyle">
+                            <h3>Press Status</h3>
+                        </div>
+                        <div class="row bgStyle1">
+                                <div class="col-md-3">Monthly Total</div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-6">Line</div>
+                                        <div class="col-md-6">Line 02</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">Target</div>
+                                        <div class="col-md-6">1100</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">Produksi</div>
+                                        <div class="col-md-6">1200</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">Jam</div>
+                                        <div class="col-md-6">3H 20M</div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row bgStyle2">
+                            <div class="col-md-3">Daily Total</div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6">Line</div>
+                                    <div class="col-md-6">Line 02</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">Target</div>
+                                    <div class="col-md-6">1100</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">Produksi</div>
+                                    <div class="col-md-6">1200</div>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+		        <script type="text/javascript" src="/jakc_process_line/static/src/js/jquery-1.11.2.min.js"></script>
+			    <script type="text/javascript" src="/jakc_process_line/static/src/js/bootstrap.min.js"></script>
+            </body>
+            </html>
+        </template>
+
+        <template id="all">
+    		<html class="full">
+            <head>
+	            <t t-set="title">Line Display</t>
+			    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+			    <!-- Latest compiled and minified CSS -->
+				<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap.min.css"></link>
+			   	<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap-theme.min.css"></link>
+
+				<!-- jQuery library -->
+
+	      	</head>
+	      	<body>
+	      	  <input id="displaycode" type="hidden" t-att-value="displaycode"/>
+		      <div class="container">
+		      	<div class="row">
+                    <div class="col-md-12">Full width</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">50%</div>
+                        <div class="col-md-3">25%</div>
+                        <div class="col-md-6">25%</div>
+                    </div>
+		      </div>
+		      <script type="text/javascript" src="/jakc_process_line/static/src/js/jquery-1.11.2.min.js"></script>
+			  <script type="text/javascript" src="/jakc_process_line/static/src/js/bootstrap.min.js"></script>
+            </body>
+            </html>
+        </template>
+
+        <template id="workshop_workorder_by_plat">
+             <t t-call="website.layout">
+                 <t t-set="title">Workorder Process</t>
+                 <div class="oe_structure">
+                     <br/>
+                     <div class="container">
+                         <t t-foreach="workorder_ids" t-as="workorder">
+                             <div class="jumbotron">
+                                 <h1><t t-esc="workorder"/></h1>
+                                 <p>Still On Progress</p>
+                            </div>
+                        </t>
+                     </div>
+                 </div>
+             </t>
+        </template>
+
+        <template id="workshop_workorder_detail_find">
+            <t t-call="website.layout">
+                <t t-set="title">Find Workorder</t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="workshop_workorder_list">
+            <t t-call="website.layout">
+                <t t-set="title">Workorder List</t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <div class="row">
+                            <table>
+                            <t t-foreach="workorders" t-as="workorder">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                            </t>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="workshop_workorder_detail">
+            <t t-call="website.layout">
+                <t t-set="title">Workorder Detail for <t t-esc="workorder.name"/></t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <div class="row">
+                            <div class="jumbotron">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <div class="row">
+                                        <h1><t t-esc="workorder.name"/></h1>
+                                        <h3>
+                                            <t t-if="workorder.state == 'draft'">
+                                                <span>Preparing Document</span>
+                                            </t>
+                                            <t t-if="workorder.state == 'sent'">
+                                                <span>Preparing Document</span>
+                                            </t>
+                                            <t t-if="workorder.state == 'sale'">
+                                                <span>In Progress</span>
+                                            </t>
+                                            <t t-if="workorder.state == 'done'">
+                                                <span>Finished</span>
+                                            </t>
+                                        </h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Routing All
+                                            <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                                <t t-foreach="routing.workcenter_lines" t-as="route">
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span t-esc="route.name"/></a></li>
+                                                </t>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <span t-field="workorder.partner_vehicle_id.image"  t-field-options='{"widget":"image"}'/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <ul class="list-group">
+                                        <t t-foreach="routing.workcenter_lines" t-as="route">
+                                            <li class="list-group-item"><span t-esc="route.name"/><span class="badge">70%</span></li>
+                                        </t>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="row">
+                                        <span>Tanggal Mulai</span>
+                                    </div>
+                                    <div class="row">
+                                        <span t-esc="workorder.date_order"/>
+                                    </div>
+                                    <div class="row">
+                                        <span>Estimasi Selesai</span>
+                                    </div>
+                                    <div class="row">
+                                        <span t-esc="workorder.estimate_finish_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <t t-set="no" t-value="0"/>
+                            <t t-foreach="workorder.production_ids" t-as="production">
+                                <t t-set="no" t-value="no + 1"/>
+                                <div class="panel-group">
+                                    <div t-attf-class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-9">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" t-attf-href="#colapse{{no}}"><span t-esc="production.product_id.name"/></a>
+                                                    </h4>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                     <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" role="progressbar" t-attf-aria-valuenow="{{production.routing_wc_line_percentage}}" aria-valuemin="0" aria-valuemax="100" t-attf-style="width:{{production.routing_wc_line_percentage}}%">
+                                                            <span t-esc="production.routing_wc_line_percentage"/>% Complete
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div t-attf-id="colapse{{no}}" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-xs-9">
+                                                        <ul class="list-group">
+                                                            <t t-foreach="production.workcenter_lines" t-as="workcenter_line">
+                                                                <li class="list-group-item">
+                                                                    <span t-esc="workcenter_line.routing_wc_line.name"/>
+                                                                    <t t-if="workcenter_line.state == 'draft'">
+                                                                        <span class="badge">Not Started</span>
+                                                                    </t>
+                                                                    <t t-if="workcenter_line.state == 'startworking'">
+                                                                        <span class="badge">In Progress</span>
+                                                                    </t>
+                                                                    <t t-if="workcenter_line.state == 'done'">
+                                                                        <span class="badge">Finished</span>
+                                                                    </t>
+                                                                    <t t-if="workcenter_line.state == 'pause'">
+                                                                        <span class="badge">Pause</span>
+                                                                    </t>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <span>Reference</span>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <span t-esc="production.name"/>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <span>Tanggal Mulai</span>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <span t-field="production.date_start"/>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <span>Tanggal Selesai</span>
+                                                                </div>
+                                                                <div class="row">
+                                                                     <span t-field="production.date_finished"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <button type="button" class="btn btn-primary">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="panel-footer">Panel Footer</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</openerp>

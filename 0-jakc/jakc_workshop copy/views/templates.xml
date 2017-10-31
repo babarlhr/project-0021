@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<openerp>
+    <data>
+    	<template id="line">
+    		<html class="full">
+            <head>
+	            <t t-set="title">Line Display</t>
+			    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+			    <!-- Latest compiled and minified CSS -->
+				<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap.min.css"></link>
+			   	<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap-theme.min.css"></link>
+                <link rel="stylesheet" href="/jakc_process_line/static/src/css/grid.css"></link>
+				<!-- jQuery library -->
+                <!-- Custom CSS -->
+                <style type="text/css">
+                    .row div
+                    {
+                        padding:10px;
+                    }
+                    .bgStyle1
+                    {
+                        background-color:lavender;
+                        font-size: 48px;
+                    }
+                    .bgStyle2
+                    {
+                        background-color:lavenderblush;
+                        font-size: 48px;
+                    }
+                    .bgStyle3
+                    {
+                        background-color:lightgoldenrodyellow;
+                    }
+                    .bgStyle4
+                    {
+                        background-color:lightgray;
+                    }
+                    .titleStyle
+                    {
+                        background-color:#6f5499;
+                        color:#fff;
+                        padding: 0 10px 10px 10px;
+                        font-size: 64px;
+                    }
+                </style>
+	      	</head>
+	      	<body>
+                  <input id="displaycode" type="hidden" t-att-value="displaycode"/>
+                  <div class="container">
+                        <div class="row titleStyle">
+                            <h3>Press Status</h3>
+                        </div>
+                        <div class="row bgStyle1">
+                                <div class="col-md-3">Monthly Total</div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-6">Line</div>
+                                        <div class="col-md-6">Line 02</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">Target</div>
+                                        <div class="col-md-6">1100</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">Produksi</div>
+                                        <div class="col-md-6">1200</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">Jam</div>
+                                        <div class="col-md-6">3H 20M</div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row bgStyle2">
+                            <div class="col-md-3">Daily Total</div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6">Line</div>
+                                    <div class="col-md-6">Line 02</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">Target</div>
+                                    <div class="col-md-6">1100</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">Produksi</div>
+                                    <div class="col-md-6">1200</div>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+		        <script type="text/javascript" src="/jakc_process_line/static/src/js/jquery-1.11.2.min.js"></script>
+			    <script type="text/javascript" src="/jakc_process_line/static/src/js/bootstrap.min.js"></script>
+            </body>
+            </html>
+        </template>
+
+        <template id="all">
+    		<html class="full">
+            <head>
+	            <t t-set="title">Line Display</t>
+			    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+			    <!-- Latest compiled and minified CSS -->
+				<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap.min.css"></link>
+			   	<link rel="stylesheet" href="/jakc_process_line/static/src/css/bootstrap-theme.min.css"></link>
+
+				<!-- jQuery library -->
+
+	      	</head>
+	      	<body>
+	      	  <input id="displaycode" type="hidden" t-att-value="displaycode"/>
+		      <div class="container">
+		      	<div class="row">
+                    <div class="col-md-12">Full width</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">50%</div>
+                        <div class="col-md-3">25%</div>
+                        <div class="col-md-6">25%</div>
+                    </div>
+		      </div>
+		      <script type="text/javascript" src="/jakc_process_line/static/src/js/jquery-1.11.2.min.js"></script>
+			  <script type="text/javascript" src="/jakc_process_line/static/src/js/bootstrap.min.js"></script>
+            </body>
+            </html>
+        </template>
+
+        <template id="workshop_workorder_by_plat">
+             <t t-call="website.layout">
+                 <t t-set="title">Workorder Process</t>
+                 <div class="oe_structure">
+                     <br/>
+                     <div class="container">
+                         <t t-foreach="workorder_ids" t-as="workorder">
+                             <div class="jumbotron">
+                                 <h1><t t-esc="workorder"/></h1>
+                                 <p>Still On Progress</p>
+                            </div>
+                        </t>
+                     </div>
+                 </div>
+             </t>
+        </template>
+
+        <template id="workshop_workorder_detail">
+            <t t-call="website.layout">
+                <t t-set="title">Workorder Detail for </t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <div class="row">
+                            <span t-esc="workorder.name"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</openerp>
