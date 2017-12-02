@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="report_generalledger_custom" inherit_id="account.report_generalledger">
+
+        <xpath expr="//table/tbody/t[1]/tr[2]/td[1]" position="replace">
+            <span t-esc="line['ldate'].strftime('%d/%M/%y')"/>
+        </xpath>
+
+</template>
+</odoo>

@@ -14,6 +14,7 @@
     'data': [
         'report/report_account_move.xml',
         'report/report_account_move_templates.xml',
+        'report/report_generalledger.xml',
     ],
     'installable': True,
     'application': True,

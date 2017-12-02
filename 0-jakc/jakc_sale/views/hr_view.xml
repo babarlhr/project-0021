@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
+        <record model="ir.ui.view" id="jakc_project_0021_department_form_inherit_view">
+            <field name="name">jakc.project.0021.department.form.inherit.view</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <field name="manager_id" position="after">
+                    <field name="dept_code"/>
+                </field>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="jakc_project_0021_hr_employee_form_inherit_view">
             <field name="name">jakc.project.0021.hr_employee.form.inherit.view</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <field name="identification_id" position="before">
+                    <field name="nik"/>
+                </field>
                 <xpath expr="//notebook" position="inside">
                     <page string="Workcenter">
                         <field name="workcenter_line_ids">
@@ -21,8 +36,7 @@
 
         <menuitem name="Fee" id="menu_hr_fee" parent="hr.menu_hr_root" groups="base.group_user" sequence="1"/>
 
-
-         <record model="ir.ui.view" id="view_hr_employee_periode_fee_tree">
+        <record model="ir.ui.view" id="view_hr_employee_periode_fee_tree">
             <field name="name">hr.employee.periode.fee.tree</field>
             <field name="model">hr.employee.periode.fee</field>
             <field name="type">tree</field>

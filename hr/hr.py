@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
-
 import openerp
 from openerp import api
 from openerp import SUPERUSER_ID

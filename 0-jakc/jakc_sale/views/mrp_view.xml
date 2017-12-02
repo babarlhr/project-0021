@@ -15,5 +15,29 @@
                 </xpath>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="view_jakc_mrp_mrp_bom_form_inherit">
+            <field name="name">jakc.mrp.mrp.bom.form.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+            <field name="arch" type="xml">
+                <field name="routing_id" position="after">
+                    <field name="list_price"/>
+                    <field name="bom_cost"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="jakc_sale_mrp_bom_form_inherit_view" model="ir.ui.view">
+            <field name="name">jakc.sale.mrp.bom.form.inherit.view</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='product_id']" position="after">
+                    <field name="standard_price"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>

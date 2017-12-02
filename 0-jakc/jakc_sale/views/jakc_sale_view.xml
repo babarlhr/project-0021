@@ -190,11 +190,10 @@
                                             <field name="attachment"/>
                                             <templates>
                                                 <t t-name="kanban-box">
-                                                    <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                                    <!--<div class="oe_kanban_global_click o_res_partner_kanban o_kanban_record">-->
+                                                    <div t-attf-class="row oe_kanban_global_click">
                                                         <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
-                                                        <div class="o_kanban_workshop_image">
-                                                            <img t-if="record.attachment.raw_value" t-att-src="'data:image/png;base64,'+record.attachment.raw_value"/>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" t-if="record.attachment.raw_value" t-att-src="'data:image/png;base64,'+record.attachment.raw_value"/>
                                                         </div>
                                                     </div>
                                                 </t>
@@ -203,9 +202,38 @@
                                     </field>
                                 </page>
                                 <page string="Before">
+                                     <field name="before_ids"  mode="kanban">
+                                        <kanban>
+                                            <field name="attachment"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="row oe_kanban_global_click">
+                                                        <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" t-if="record.attachment.raw_value" t-att-src="'data:image/png;base64,'+record.attachment.raw_value"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
                                 </page>
                                 <page string="After">
-
+                                     <field name="after_ids"  mode="kanban">
+                                        <kanban>
+                                            <field name="attachment"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="row oe_kanban_global_click">
+                                                        <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" t-if="record.attachment.raw_value" t-att-src="'data:image/png;base64,'+record.attachment.raw_value"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
                                 </page>
                             </notebook>
                         </group>
@@ -213,8 +241,9 @@
                     </page>
                     <page string="Production" attrs="{'invisible': [('iface_workorder','=',False)]}">
                         <br/>
-                        <button  name="trans_check_material" string="Check Material" type="object" class="oe_highlight"/>
-                        <field name="production_ids" readonly="1">
+                        <button name="trans_check_material" string="Check Material" type="object" class="oe_highlight"/>
+                        <br/>
+                        <field name="production_ids" readonly="1" create="false">
                             <tree string="Productions" colors="blue:state=='done';green:state=='ready';red:state=='in_production';">
                                 <field name="name"/>
                                 <field name="product_id"/>
@@ -225,9 +254,8 @@
                     </page>
                     <page string="Work Center" attrs="{'invisible': [('iface_workorder','=',False)]}" >
                         <br/>
-                        <button  name="%(jakc_sale.act_add_operator_main)d" string="Add Operator" type="action" class="oe_highlight"/>
                         <button  name="trans_refresh_workcenter_tree" string="Refresh" type="object" class="oe_highlight"/>
-                        <field name="workcenter_line_ids" options="{'reload_on_button': true}">
+                        <field name="workcenter_line_ids" options="{'reload_on_button': true}" readonly="1" create="false">
                             <tree string="Work Center" colors="blue:state=='done';green:state=='startworking';red:state=='request';" context="{'group_by': 'production_id'}" delete="false">
                                 <field name="production_id"/>
                                 <field name="name"/>
@@ -240,25 +268,29 @@
                                         icon="fa-archive"
                                         states="draft,startworking"
                                 />
-                                <button name="button_start_working"
+                                <button name="trans_start_working"
                                         string="Start"
                                         icon="fa-play-circle"
                                         states="draft"
+                                        type="object"
                                 />
-                                <button name="button_request_qc"
+                                <button name="trans_request_qc"
                                         string="Request for QC"
                                         icon="fa-external-link"
                                         states="startworking"
+                                        type="object"
                                 />
-                                <button name="button_request_approve"
+                                <button name="trans_request_approve"
                                         string="Approve"
                                         icon="fa-check-circle-o"
                                         states="request"
+                                        type="object"
                                 />
-                                <button name="button_request_reject"
+                                <button name="trans_request_reject"
                                         string="Reject"
                                         icon="fa-minus-circle"
                                         states="request"
+                                        type="object"
                                 />
                                 <button name="%(jakc_sale.act_add_operator_main)d"
                                         string="Add Operators"
@@ -269,17 +301,27 @@
                         </field>
                     </page>
                     <page string="Material"  attrs="{'invisible': [('iface_workorder','=',False)]}">
-                        <br/>s
+                        <br/>
                         <button  name="trans_merge_stock_move" string="Calculate Material" type="object" class="oe_highlight"/>
-                        <field name="consume_material_ids">
+                        <br/>
+                        <h1>Material</h1>
+                        <field name="consume_material_ids" readonly="1" create="false">
                             <tree>
                                 <field name="product_id"/>
+                                <field name="employee_id"/>
                                 <field name="quantity"/>
                                 <field name="quantity_done"/>
-                                <button name="trans_consume_material"
-                                        string="Additional Material"
-                                        type="object"
+                                <field name="quantity_add"/>
+                                <field name="quantity_return"/>
+                                <button name="%(jakc_sale.act_consume_material)d"
+                                        string="Consume Material"
+                                        type="action"
                                         icon="fa-shopping-cart"
+                                />
+                                <button name="%(jakc_sale.act_add_material)d"
+                                        string="Add Material"
+                                        type="action"
+                                        icon="fa-plus-square"
                                 />
                                 <button name="%(jakc_sale.act_return_material)d"
                                         string="Return Material"
@@ -288,6 +330,33 @@
                                 />
                             </tree>
                         </field>
+                        <br/>
+                        <h1>Additional Material</h1>
+                        <field name="add_material_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="trans_date"/>
+                                <field name="product_id"/>
+                                <field name="employee_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom"/>
+                                <field name="stock_move_id"/>
+                                <field name="iface_approval"/>
+                                <field name="approved_by"/>
+                            </tree>
+                        </field>
+                        <br/>
+                        <h1>Return Material</h1>
+                        <field name="return_material_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="trans_date"/>
+                                <field name="product_id"/>
+                                <field name="employee_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom"/><field name="employee_id"/>
+                                <field name="stock_move_id"/>
+                            </tree>
+                        </field>
+
                     </page>
                     <page string="Status Fisik" attrs="{'invisible': [('iface_workorder','=',False)]}">
                         <field name="car_status_ids">
@@ -353,6 +422,20 @@
         <menuitem action="action_workorders"
             id="menu_workshop_order" parent="base.workshop_workorder_menu"
             sequence="12" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <!-- WORKSHOP/SALE ORDER BEFORE IMAGE-->
+        <record model="ir.ui.view" id="view_sale_order_before_image_form">
+            <field name="name">Sale Order Before Image Form</field>
+            <field name="model">sale.order.before.image</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="sale_order_id"/>
+                    <field name="attachment"/>
+                    <field name="attachment_filename"/>
+                </form>
+            </field>
+        </record>
 
          <!-- WORKSHOP/PARTNER VEHICLE -->
 
@@ -488,7 +571,6 @@
                      <field name="sale_order_id"/>
                      <field name="partner_vehicle_id"/>
                 </xpath>
-
                 <notebook position="inside">
                     <page string="Images">
                         <field name="attachment_ids"  mode="kanban">
@@ -507,7 +589,6 @@
                                                 <img t-if="record.attachment.raw_value" t-att-src="'data:image/png;base64,'+record.attachment.raw_value"/>
                                             </div>
                                         </div>
-
                                     </t>
                                 </templates>
                             </kanban>
@@ -585,6 +666,31 @@
                     <filter string="Sale Order" icon="terp-accessories-archiver"
                             domain="[]" context="{'group_by':'sale_order_id'}"/>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_consume_material_form_view" model="ir.ui.view">
+            <field name="name">sale.order.consume.material.form.view</field>
+            <field name="model">sale.order.consume.material</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="sale_order_id"/>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="quantity_done"/>
+                        </group>
+                        <field name="line_ids">
+                            <tree>
+                                <field name="stock_move_id"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
             </field>
         </record>
 

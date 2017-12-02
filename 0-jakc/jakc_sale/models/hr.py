@@ -1,10 +1,25 @@
 from openerp import api, fields, models, _
 
+
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     workcenter_line_ids = fields.One2many('mrp.production.workcenter.line.operator', 'operator', 'Workcenters')
+    nik = fields.Char('Nik', size=10, required=True)
+    _sql_constraints = [
+        (
+            'uniq_nik', 'unique(nik)', "A NIK already exist. NIK name must be unique!"),
+    ]
 
+
+class HrDepartment(models.Model):
+    _inherit = 'hr.department'
+
+    dept_code = fields.Char('Dept Code', size=10, required=True)
+
+    _sql_constraints = [
+        ('uniq_dept_code', 'unique(dept_code)', "A Department Code already exist. Department Code name must be unique!"),
+    ]
 
 class HrEmployeePeriodeFee(models.Model):
     _name = 'hr.employee.periode.fee'
@@ -39,5 +54,4 @@ class HrEmployeePeriodeFee(models.Model):
     def create(self, vals):
         vals.update({'name': vals.get('date_start') + ' - ' + vals.get('date_end')})
         return super(HrEmployeePeriodeFee, self).create(vals)
-
 

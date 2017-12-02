@@ -8,16 +8,11 @@
             <field name="arch" type="xml">
                 <form string="Process Operator Fee">
                     <group>
-                        <field name="mrp_routing_id"/>
-                        <field name="mrp_routing_workcenter_id"/>
-                        <field name="stock_move_ids">
-                            <tree>
-                                <field name="name"/>
-                            </tree>
-                        </field>
+                        <field name="consume_material_id"/>
+                        <field name="employee_id"/>
                     </group>
                     <footer>
-                        <button name="process_operator_fee" type="object" string="Process" class="oe_highlight"/>
+                        <button name="process_consume_material" type="object" string="Process" class="oe_highlight"/>
                         or
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>

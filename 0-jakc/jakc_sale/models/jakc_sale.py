@@ -28,6 +28,9 @@ class SaleOrder(models.Model):
         for production in self.production_ids:
             production.action_assign()
 
+        #Calculate Consume Material
+        self.trans_merge_stock_move()
+
     @api.one
     def trans_surat_jalan(self):
         print "Surat Jalan"
@@ -66,9 +69,10 @@ class SaleOrder(models.Model):
     def trans_merge_stock_move(self):
         consume_material_obj = self.env['sale.order.consume.material']
         consume_material_line_obj = self.env['sale.order.consume.material.line']
+        consume_material_ids = self.consume_material_ids
 
-        for order in self:
-            order.consume_material_ids.unlink()
+        #for order in self:
+        #    order.consume_material_ids.unlink()
 
         product_lines = []
         product_move_lines = []
@@ -88,21 +92,41 @@ class SaleOrder(models.Model):
                     product_lines.append(product_line)
 
         for product_line in product_lines:
-            res = consume_material_obj.create(product_line)
-            for production_id in self.production_ids:
-                for move_line in production_id.move_lines:
-                    if move_line.product_id.id == res.product_id.id:
-                        product_move_line = {}
-                        product_move_line.update({'consume_material_id': res.id})
-                        product_move_line.update({'stock_move_id': move_line.id})
-                        consume_material_line_obj.create(product_move_line)
+            #Check Consume Material Product
+            args = [('product_id', '=', product_line.product_id)]
+            consume_material = consume_material_obj.search(args)
+            if consume_material:
+                #Update Consume Material
+                for production_id in self.production_ids:
+                    for move_line in production_id.move_lines:
+                        if move_line.product_id.id == res.product_id.id:
+                            product_move_line = {}
+                            product_move_line.update({'consume_material_id': res.id})
+                            product_move_line.update({'stock_move_id': move_line.id})
+                            consume_material_line_obj.create(product_move_line)
 
-                for move_line2 in production_id.move_lines2:
-                    if move_line2.product_id.id == res.product_id.id:
-                        product_move_line = {}
-                        product_move_line.update({'consume_material_id': res.id})
-                        product_move_line.update({'stock_move_id': move_line2.id})
-                        consume_material_line_obj.create(product_move_line)
+                    for move_line2 in production_id.move_lines2:
+                        if move_line2.product_id.id == res.product_id.id:
+                            product_move_line = {}
+                            product_move_line.update({'consume_material_id': res.id})
+                            product_move_line.update({'stock_move_id': move_line2.id})
+                            consume_material_line_obj.create(product_move_line)
+            else:
+                res = consume_material_obj.create(product_line)
+                for production_id in self.production_ids:
+                    for move_line in production_id.move_lines:
+                        if move_line.product_id.id == res.product_id.id:
+                            product_move_line = {}
+                            product_move_line.update({'consume_material_id': res.id})
+                            product_move_line.update({'stock_move_id': move_line.id})
+                            consume_material_line_obj.create(product_move_line)
+
+                    for move_line2 in production_id.move_lines2:
+                        if move_line2.product_id.id == res.product_id.id:
+                            product_move_line = {}
+                            product_move_line.update({'consume_material_id': res.id})
+                            product_move_line.update({'stock_move_id': move_line2.id})
+                            consume_material_line_obj.create(product_move_line)
 
 
     iface_workorder = fields.Boolean('Is Work Order', default=False)
@@ -135,6 +159,8 @@ class SaleOrder(models.Model):
     estimate_finish_date = fields.Date('Estimate Finish')
     insurance_order_ids = fields.One2many('stock.move', 'sale_order_id', 'Insurance Sparepart')
     attachment_ids = fields.One2many(comodel_name='sale.order.image',  inverse_name='sale_order_id', string='Images')
+    before_ids = fields.One2many(comodel_name='sale.order.before.image',  inverse_name='sale_order_id', string='Images')
+    after_ids = fields.One2many(comodel_name='sale.order.after.image',  inverse_name='sale_order_id', string='Images')
     production_ids = fields.One2many(comodel_name='mrp.production', inverse_name='sale_order_id', string='Production')
     production_count = fields.Integer(compute="_get_production_count")
     workcenter_line_ids = fields.One2many(comodel_name='mrp.production.workcenter.line', inverse_name='sale_order_id', string='Work Center Line')
@@ -153,6 +179,8 @@ class SaleOrder(models.Model):
     sparepart_line_count = fields.Integer(string='Sparepart Count',compute="_get_sparepart_line_count")
     estimate_sparepart_product = fields.Many2one(comodel_name='product.product', compute="_get_estimate_sparepart_product")
     consume_material_ids = fields.One2many('sale.order.consume.material', 'sale_order_id', 'Materials')
+    return_material_ids = fields.One2many('sale.order.return.material', 'sale_order_id', 'Materials')
+    add_material_ids = fields.One2many('sale.order.add.material', 'sale_order_id', 'Materials')
     scheduled_product_count = fields.Integer(compute="_get_schedule_product_count")
     scheduled_product_amount = fields.Float(string="Material Amount", compute="_get_schedule_product_amount")
     scheduled_product_percentage = fields.Float(string="Material Percentage", compute="_get_schedule_product_amount")
@@ -530,6 +558,20 @@ class SaleOrderImages(models.Model):
     attachment = fields.Binary('Image')
     attachment_filename = fields.Char('File Name')
 
+class SaleOrderBeforemages(models.Model):
+    _name = 'sale.order.before.image'
+
+    sale_order_id = fields.Many2one('sale.order','Sale Order')
+    attachment = fields.Binary('Image')
+    attachment_filename = fields.Char('File Name')
+
+class SaleOrderAfterImages(models.Model):
+    _name = 'sale.order.after.image'
+
+    sale_order_id = fields.Many2one('sale.order','Sale Order')
+    attachment = fields.Binary('Image')
+    attachment_filename = fields.Char('File Name')
+
 
 class SaleOrderRouting(models.Model):
     _name = 'sale.order.routing'
@@ -575,11 +617,24 @@ class SaleOrderConsumeMaterial(models.Model):
 
     @api.one
     def _calculate_product_uom_qty(self):
+        sale_order_add_material_obj = self.env['sale.order.add.material']
+        sale_order_return_material_obj = self.env['sale.order.return.material']
         qty = 0
         for consume_material in self:
             for material in consume_material:
                 for line in material.line_ids:
                     qty += line.stock_move_id.product_uom_qty
+
+                args = [('sale_order_id', '=', consume_material.sale_order_id.id),('product_id', '=', consume_material.product_id.id)]
+                # Calculate Add Quantity
+                add_material_ids = sale_order_add_material_obj.search(args)
+                for add_material in add_material_ids:
+                    qty += add_material.product_uom_qty
+                # Calculate Return Quantity
+                return_material_ids = sale_order_return_material_obj.search(args)
+                for return_material in return_material_ids:
+                    qty -= return_material.product_uom_qty
+
                 self.quantity = qty
                 qty = 0
 
@@ -591,12 +646,44 @@ class SaleOrderConsumeMaterial(models.Model):
                 for line in material.line_ids:
                     for quant in line.stock_move_id.quant_ids:
                         qty_done += quant.qty
-
                 self.quantity_done = qty_done
                 qty_done = 0
 
     @api.one
+    def _calculate_quantity_add(self):
+        sale_order_add_material_obj = self.env['sale.order.add.material']
+        sale_order_return_material_obj = self.env['sale.order.return.material']
+        qty = 0
+        for consume_material in self:
+            args = [('sale_order_id','=', consume_material.sale_order_id.id),('product_id', '=', consume_material.product_id.id)]
+            # Calculate Add Quantity
+            add_material_ids = sale_order_add_material_obj.search(args)
+            for add_material in add_material_ids:
+                qty += add_material.product_uom_qty
+            # Calculate Return Quantity
+            self.quantity_add = qty
+            qty = 0
+
+
+    @api.one
+    def _calculate_quantity_return(self):
+        sale_order_add_material_obj = self.env['sale.order.add.material']
+        sale_order_return_material_obj = self.env['sale.order.return.material']
+        qty = 0
+        for consume_material in self:
+            args = [('sale_order_id','=', consume_material.sale_order_id.id),('product_id', '=', consume_material.product_id.id)]
+            # Calculate Add Quantity
+            return_material_ids = sale_order_return_material_obj.search(args)
+            for return_material in return_material_ids:
+                qty += return_material.product_uom_qty
+            # Calculate Return Quantity
+            self.quantity_return = qty
+            qty = 0
+
+
+    @api.one
     def trans_consume_material(self):
+        #Consume Default Material
         for material in self:
             for line in material.line_ids:
                 move = line.stock_move_id
@@ -633,10 +720,15 @@ class SaleOrderConsumeMaterial(models.Model):
                             move_obj.action_done([extra_move_id])
                             logger.info("Move 02")
 
+        #Consume Additional Material
+
     sale_order_id = fields.Many2one('sale.order','Order #')
+    employee_id = fields.Many2one('hr.employee','Employee', readonly=True)
     product_id = fields.Many2one('product.product', 'Product')
     quantity = fields.Float(compute='_calculate_product_uom_qty', string='Quantity')
     quantity_done = fields.Float(compute='_calculate_product_quant_qty', string='Claimed')
+    quantity_add = fields.Float(compute='_calculate_quantity_add', string='Add')
+    quantity_return = fields.Float(compute='_calculate_quantity_return', string='Return')
     line_ids = fields.One2many('sale.order.consume.material.line', 'consume_material_id', 'Material Lines')
 
 
@@ -644,6 +736,45 @@ class SaleOrderConsumeMaterialLine(models.Model):
     _name = 'sale.order.consume.material.line'
 
     consume_material_id = fields.Many2one('sale.order.consume.material','Consume Material #')
+    stock_move_id = fields.Many2one('stock.move','Move #')
+
+
+class SaleOrderAddMaterial(models.Model):
+    _name ='sale.order.add.material'
+
+    sale_order_id = fields.Many2one('sale.order','Order #')
+    employee_id = fields.Many2one('hr.employee','Employee', readonly=True)
+    trans_date = fields.Date('Date', required=True, select=True, default=lambda self: fields.datetime.now())
+    product_id = fields.Many2one('product.product', 'Product')
+    product_uom_qty = fields.Float('Quantity', related='stock_move_id.product_uom_qty', store=True,)
+    product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
+    stock_move_id = fields.Many2one('stock.move', 'Move', readonly=True)
+    iface_approval = fields.Boolean('Need Approval', default=False, readonly=True)
+    approved_by = fields.Many2one('hr.employee', 'Approved By', readonly=True)
+
+class SaleOrderAddMaterialLine(models.Model):
+    _name = 'sale.order.add.material.line'
+
+    add_material_id = fields.Many2one('sale.order.add.material','Add Material #')
+    stock_move_id = fields.Many2one('stock.move','Move #')
+
+
+class SaleOrderReturnMaterial(models.Model):
+    _name = 'sale.order.return.material'
+
+    sale_order_id = fields.Many2one('sale.order', 'Order #')
+    employee_id = fields.Many2one('hr.employee','Employee', readonly=True)
+    trans_date = fields.Date('Date', required=True, select=True, default=lambda self: fields.datetime.now())
+    product_id = fields.Many2one('product.product', 'Product', required=True)
+    product_uom_qty = fields.Float('Quantity', related='stock_move_id.product_uom_qty', store=True,)
+    product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
+    stock_move_id = fields.Many2one('stock.move', 'Move', readonly=True)
+
+
+class SaleOrderReturnMaterialLine(models.Model):
+    _name = 'sale.order.return.material.line'
+
+    return_material_id = fields.Many2one('sale.order.consume.material','Consume Material #')
     stock_move_id = fields.Many2one('stock.move','Move #')
 
 

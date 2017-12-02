@@ -51,6 +51,7 @@
                             <th>Ref</th>
                             <th>Move</th>
                             <th>Entry Label</th>
+                            <th>Beginning</th>
                             <th>Debit</th>
                             <th>Credit</th>
                             <th>Balance</th>
@@ -64,6 +65,9 @@
                                     <span style="color: white;" t-esc="'..'"/>
                                     <span t-esc="account['code']"/>
                                     <span t-esc="account['name']"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="account['debit']" t-esc-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/>
                                 </td>
                                 <td class="text-right">
                                     <span t-esc="account['debit']" t-esc-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/>

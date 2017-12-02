@@ -14,6 +14,7 @@ class ResCompany(models.Model):
     or_product = fields.Many2one('product.product', 'OR')
     or_amount = fields.Float('OR Fee')
     iface_auto_reserve = fields.Boolean('Auto Reserve', default=False)
+    add_material_authorized = fields.Many2one('hr.employee', 'Add Material Authorized')
 
     location_id = fields.Many2one('stock.location','Source Location')
     location_dest_id = fields.Many2one('stock.location', 'Destination Location')

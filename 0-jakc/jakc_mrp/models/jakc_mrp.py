@@ -17,4 +17,5 @@ class MrpBom(models.Model):
 
         self.bom_cost = total
 
-    bom_cost = fields.Float('Bom Cost', compute='_calculate_bom_cost')
+    bom_cost = fields.Float(string='Bom Cost', compute='_calculate_bom_cost')
+    list_price = fields.Float(string='Price', related='product_id.list_price')

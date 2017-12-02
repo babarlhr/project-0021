@@ -12,6 +12,7 @@
                             <field name="routing_wc"/>
                             <field name="or_amount"/>
                             <field name="iface_auto_reserve"/>
+                            <field name="add_material_authorized"/>
                         </group>
                     </page>
                     <page string="Sparepart">

@@ -13,7 +13,12 @@ logger = logging.getLogger(__name__)
 class MrpBom(models.Model):
     _inherit = 'mrp.bom'
 
-    total_material_cost = fields.Float('Total Material Cost', compute='_get_total_material_cost')
+    @api.one
+    def _calculate_bom_cost(self):
+        total = 0
+        for line in self.bom_line_ids:
+            total += (line.standard_price * line.product_qty)
+        self.bom_cost = total
 
     @api.one
     @api.depends('bom_line_ids')
@@ -22,6 +27,16 @@ class MrpBom(models.Model):
         for bom_line in self.bom_line_ids:
             total += bom_line.product_id.standart_price
         self.total_material_cost = total
+
+    bom_cost = fields.Float(string='Bom Cost', compute='_calculate_bom_cost')
+    list_price = fields.Float(string='Price', related='product_tmpl_id.list_price')
+    total_material_cost = fields.Float(string='Total Material Cost', compute='_get_total_material_cost')
+
+
+class MrpBomLine(models.Model):
+    _inherit = 'mrp.bom.line'
+
+    standard_price = fields.Float(string='Cost Price', related='product_id.standard_price')
 
 
 class MrpProduction(models.Model):
@@ -107,6 +122,18 @@ class MrpProductionWorkcenterLine(models.Model):
         operator01_ids = self.operator01_ids
         for operator in operator01_ids:
             self.list_operator = self.list_operator + operator.operator.name + ', '
+
+    @api.one
+    def trans_request_approve(self):
+        self.action_done()
+
+    @api.one
+    def trans_request_reject(self):
+        self.action_start_working()
+
+    @api.one
+    def trans_request_qc(self):
+        self.action_request_qc()
 
     @api.one
     def action_request_qc(self):
