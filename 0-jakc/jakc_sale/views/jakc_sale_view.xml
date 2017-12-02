@@ -431,7 +431,7 @@
             <field name="arch" type="xml">
                 <form>
                     <field name="sale_order_id"/>
-                    <field name="attachment"/>
+                    <field name="attachment" widget="image"/>
                     <field name="attachment_filename"/>
                 </form>
             </field>
