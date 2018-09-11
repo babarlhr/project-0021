@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_sale_order_image_salesman,sale_order_image_salesman,model_sale_order_image,base.group_sale_salesman,1,1,1,1
+access_sale_order_before_image_salesman,sale_order_before_image_salesman,model_sale_order_before_image,base.group_sale_salesman,1,1,1,1
+access_sale_order_after_image_salesman,sale_order_after_image_salesman,model_sale_order_after_image,base.group_sale_salesman,1,1,1,1
+access_sale_order_sparepart_line_salesman,sal_order_sparepart_line_salesman,model_sale_order_sparepart_line,base.group_sale_salesman,1,1,1,1

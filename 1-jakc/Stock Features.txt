@@ -1,0 +1,30 @@
+
+Material
+- Material dari manufacturing order akan langsung dibuat stock move yang mempunyai relasi ke setiap Production
+- Meterial yang sama untuk semua production didalam Workorder bisa diclaim semua atau diclaim lebih kecil , jika diclaim
+  kecil maka qty pada stock move akan dirubah sesuai pengambilan dan stock move akan di close
+- Untuk penambahan material dapat dilakukan langsung dari bagian material kemudian akan ditambahkan stock picking
+  sesuai dengan penambahan material dan jumlah material , picking akan langsung diclose sesuai dengan quantity yang di minta
+_ Untuk pengembalian material dapat dilakukan langsung dari bagian material kemudian akan ditambahkan stock picking pengembalian
+  material sesuai dengna meterial dan jumlah material, picking ini akan akan langsung diclose sesuai dengan quantity yang di minta
+- Permintaan dan pengembalian harus dilakuakan dari bagian material dan harus mencantumkan operator yang mengambil atau mengembalikan
+  material tersebut
+
+Sparepart
+- Penambahan Penjualan Sparepart dapat dilakukan dari Work Order dengan menambahkan order line dengan sparepart yang diinginkan
+- Penambahan sparepart akan dianggap sebagai penjualan dan akan memunculkan stock move yang baru pada stock picking delivery
+- Pengambilan barang harus dilakukan dari bagian material dan harus mencantumkan operator yang mengambil sparepart tersebut
+- Jika sudah diambil barang dianggap sudah pindah ke bagian produksi
+- Jika terjadi pembatalan sparepart, maka pada order line sparepart tersebut harus dirubah menjadi 0 dan akan memunculkan stock picking
+  pengembalian sparepart yang harus di selesaikan oleh bagian gudang
+
+
+Sparepart (Insurance)
+- Penambahan Sparepart Asuransi dapat dilakukan dari bagian sparepart.
+- Penambahan Sparepart Asuransi akan mengenerate stock picking dari Vendor ke Stock Asuransi dan Stock Asuransi ke Produksi
+- Penerimaan barang oleh bagian gudang dapat dilakuakan dengan menyelesaikan stocking pikcin dari vendor ke stock asuransi
+- Pengambilan barang oleh operator harus dilakukan pada bagian sparepart dan akan menyelesaikan stock picking dari stok asuransi
+  ke produksi
+- Jika terjadi pembatalan sparepart oleh asuransi, maka pada bagian sparepart asuransi dilakuakn proses pemgembalian
+  pengambalian bisa berasal dari produksi ke asuransi atau dari stock asuransi ke asuransi
+

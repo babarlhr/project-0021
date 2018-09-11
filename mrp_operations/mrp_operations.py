@@ -8,6 +8,10 @@ import time
 from datetime import datetime
 from openerp.tools.translate import _
 from openerp.exceptions import UserError
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 #----------------------------------------------------------
 # Work Centers

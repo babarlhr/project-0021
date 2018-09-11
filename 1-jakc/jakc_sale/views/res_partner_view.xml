@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_workshop_res_partner_inherit_form_view">
+            <field name="name">jakc.workshop.res.partner.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='purchase']" position="after">
+                    <group string="Insurance" name="insurance">
+                        <field name="iface_insurance"/>
+                        <field name="or_fee" attrs="{'invisible':[('iface_insurance','=', False)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

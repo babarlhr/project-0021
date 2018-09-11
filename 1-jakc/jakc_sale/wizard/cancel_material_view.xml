@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="wizard_cancel_material_form_view" model="ir.ui.view">
+            <field name="name">wizard.cancel.material.form</field>
+            <field name="model">wizard.cancel.material</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Adjustment Material">
+                    <group>
+                        <field name="product_id"/>
+                        <field name="employee_id"/>
+                        <field name="iface_cancel_only"/>
+                        <field name="product_qty" attrs="{'invisible':[('iface_cancel_only','=', True)],'required':[('iface_cancel_only' ,'=', False)]}"/>
+                        <field name="product_uom" attrs="{'invisible':[('iface_cancel_only','=', True)],'required':[('iface_cancel_only' ,'=', False)]}"/>
+                    </group>
+                     <footer>
+                        <button name="cancel_material" type="object" string="Add Material" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="act_cancel_material" model="ir.actions.act_window">
+            <field name="name">Cancel Material</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.cancel.material</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_cancel_material_form_view"/>
+        </record>
+
+    </data>
+</odoo>

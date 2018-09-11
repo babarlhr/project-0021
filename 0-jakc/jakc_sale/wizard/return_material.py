@@ -68,3 +68,6 @@ class WizardReturnMaterial(models.TransientModel):
             result = sale_order_return_material_obj.create(values)
             stock_move = self._make_stock_move(result)[0]
             result.stock_move_id = stock_move.id
+
+
+        consume_material.sale_order_id.trans_merge_stock_move()

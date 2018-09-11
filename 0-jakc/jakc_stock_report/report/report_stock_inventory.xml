@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="report_stock_cards"
+            string="Stock Card"
+            model="stock.move"
+            report_type="qweb-pdf"
+            file="jakc_stock.report_stockcards"
+            name="jakc_stock.report_stockcards"
+        />
+    </data>
+</openerp>

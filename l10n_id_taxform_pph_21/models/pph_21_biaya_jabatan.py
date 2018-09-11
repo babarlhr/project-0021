@@ -48,42 +48,27 @@ class Pph21TunjanganJabatan(models.Model):
         return results[0]
 
     @api.multi
-    def get_biaya_jabatan_rutin(
-            self,
-            jumlah_penghasilan_rutin=0.0,
-            tanggal_pemotongan=False):
+    def get_biaya_jabatan_rutin(self,jumlah_penghasilan_rutin=0.0,tanggal_pemotongan=False):
         self.ensure_one()
-        multiply = (self.rate_biaya_jabatan / 100.00) * \
-            jumlah_penghasilan_rutin
+        multiply = (self.rate_biaya_jabatan / 100.00) * jumlah_penghasilan_rutin
         if multiply >= self.max_biaya_jabatan:
             result = self.max_biaya_jabatan
         else:
             result = multiply
-
         return result
 
     @api.multi
-    def get_biaya_jabatan_non_rutin(
-            self,
-            jumlah_penghasilan_non_rutin=0.0,
-            biaya_jabatan_rutin=0.0,
-            tanggal_pemotongan=False):
+    def get_biaya_jabatan_non_rutin(self,jumlah_penghasilan_non_rutin=0.0,biaya_jabatan_rutin=0.0,tanggal_pemotongan=False):
         self.ensure_one()
-        multiply = (self.rate_biaya_jabatan / 100.00) * \
-            jumlah_penghasilan_non_rutin
+        multiply = (self.rate_biaya_jabatan / 100.00) * jumlah_penghasilan_non_rutin
         if multiply + biaya_jabatan_rutin >= self.max_biaya_jabatan:
             result = self.max_biaya_jabatan - biaya_jabatan_rutin
         else:
             result = multiply
-
         return result
 
     @api.multi
-    def get_biaya_jabatan(
-            self,
-            jumlah_penghasilan_rutin=0.0,
-            jumlah_penghasilan_non_rutin=0.0,
-            tanggal_pemotongan=False):
+    def get_biaya_jabatan(self,jumlah_penghasilan_rutin=0.0,jumlah_penghasilan_non_rutin=0.0,tanggal_pemotongan=False):
         # TODO:
         self.ensure_one()
         result = {
@@ -91,15 +76,9 @@ class Pph21TunjanganJabatan(models.Model):
             "biaya_jabatan_non_rutin": 0.0,
             "biaya_jabatan": 0.0,
         }
-        biaya_jabatan_rutin = self.get_biaya_jabatan_rutin(
-            jumlah_penghasilan_rutin,
-            tanggal_pemotongan)
-        biaya_jabatan_non_rutin = self.get_biaya_jabatan_non_rutin(
-            jumlah_penghasilan_non_rutin,
-            biaya_jabatan_rutin,
-            tanggal_pemotongan)
+        biaya_jabatan_rutin = self.get_biaya_jabatan_rutin(jumlah_penghasilan_rutin,tanggal_pemotongan)
+        biaya_jabatan_non_rutin = self.get_biaya_jabatan_non_rutin(jumlah_penghasilan_non_rutin,biaya_jabatan_rutin,tanggal_pemotongan)
         result["biaya_jabatan_rutin"] = biaya_jabatan_rutin
         result["biaya_jabatan_non_rutin"] = biaya_jabatan_non_rutin
-        result["biaya_jabatan"] = biaya_jabatan_rutin + \
-            biaya_jabatan_non_rutin
+        result["biaya_jabatan"] = biaya_jabatan_rutin + biaya_jabatan_non_rutin
         return result

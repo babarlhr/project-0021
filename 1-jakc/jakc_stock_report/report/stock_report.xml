@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report
+            string="Delivery Slip (Custom)"
+            id="action_report_delivery_custom"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="jakc_stock_report.report_deliveryslip_custom"
+            file="jakc_stock_report.report_deliveryslip_custom"
+        />
+
+
+    </data>
+</openerp>

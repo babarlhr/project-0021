@@ -40,8 +40,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         elif self.advance_payment_method == 'or':
             partner_id = order.partner_id
             if partner_id.iface_insurance:
-                #amount = order.or_count * partner_id.or_fee
-                amount = order.or_count * order.or_amount
+                amount = order.or_amount
                 name = _('OR Payment')
                 iface_or_invoice = True
             else:
@@ -95,6 +94,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.multi
     def create_invoices(self):
+        amount = 0
         sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
 
         if self.advance_payment_method == 'delivered':
@@ -115,7 +115,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
                 elif self.advance_payment_method == 'or':
                     partner_id = order.partner_id
                     if partner_id.iface_insurance:
-                        amount = order.or_count * partner_id.or_fee
+                        amount = order.or_amount
                 else:
                     amount = self.amount
                 if self.product_id.invoice_policy != 'order':
@@ -130,10 +130,11 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     tax_ids = order.fiscal_position_id.map_tax(taxes).ids
                 else:
                     tax_ids = taxes.ids
+
                 so_line = sale_line_obj.create({
                     'name': _('Advance: %s') % (time.strftime('%m %Y'),),
                     'price_unit': amount,
-                    'product_uom_qty': 0.0,
+                    'product_uom_qty': 1.0,
                     'order_id': order.id,
                     'discount': 0.0,
                     'product_uom': self.product_id.uom_id.id,

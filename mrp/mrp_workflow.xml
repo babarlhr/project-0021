@@ -26,6 +26,7 @@
             <field name="kind">function</field>
             <field name="action">action_ready()</field>
         </record>
+
         <record id="prod_act_in_production" model="workflow.activity">
             <field name="wkf_id" ref="wkf_prod"/>
             <field name="name">in_production</field>

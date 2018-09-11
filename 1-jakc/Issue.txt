@@ -1,0 +1,90 @@
+ISSUE 23-08-2018
+1. Material Amount dan Percentage nilainya salah -> Harus diambil nilainya dari stock quants -> Done
+2. Pada Tab Material nilai qty harus sesuai yang dipesan -> Done
+3. Add Additonal Materil difilter yang category bahan baku -> Not Running
+4. Material Amount dan Percentage boleh dilihat oleh user -> sudah dibuang groups filternya -> Done
+5. PErbaikan Laporan SPK untuk Nilai OR ->
+6. Ada pebandingan plan material amount dan real material amount ->
+7. Session Close / Timeout ->
+
+ISSUE 03-08-2018
+1. Claim vs Retur
+2. Filter Bahan Baku only ketika add material,
+3. Nambah baris add.
+
+4. Laporan Report SPK
+   - Laporan Detail , ada total penjualan diheader
+   - Laporan Summary, per hari , nilai jasa dan nilai , nilai sparepart
+
+5. Workcenter Cancel masih bisa add operator -> Done
+
+
+ISSUE 31-07-2018
+jakc_purchase
+jakc_sale
+
+1. Logo di Car Status
+2. Email Purchase Keluar
+3. Filter Car Status di kanban
+
+ISSUE 07-06-2018
+
+1. Automatic PO
+   Module : jakc_purchase
+   PO -> Procurement -> Manufacture -> Sale Order Line -> Sale Order -> Paint Category -> Price
+   - Create Product Cat dengan Option Paint Checked
+   - Create master Paint Category and  define price for each category
+   - When create SPK don't forget to define Paint Category if not set PO order will create with zero price
+   - Add additional information on Notes Field
+
+2. Required or not required action for operator on workcenter line
+   Module: jakc_sale
+   - Add Field iface_operator_fee on wizard.add.operator
+   - Add Field iface_operator_fee on mrp.workcenter.line.operator
+
+
+ISSUE 26-03-2018
+
+1. Add Menu Delivery Invoice , change sent status when delivery, add delivery status on tree and form
+2. Add Paid process on Fee Mekanik Periode
+
+
+ISSUE 20-03-2018
+
+SPK
+1. Tidak ada COGS untuk Panel -> Panel dibuat inventeory valuation : periodic atau manual kemudian COGS akan
+   dihitung ketika WO di Set Done (Semua panel akan dibuatkan journal entry untuk COGS -> FIT)
+
+2. Create Invoice OR Error -> Done
+
+
+ISSUE: 12-03-2018
+* Kanban
+
+1 Last Job belum terupdate sesuai pos kerja terakhir
+
+* Sparepart
+1 Supply bengkel, sudah PO dan Recieving status sudah availible tetapi tidak ada button ambil sparepart -> Done
+2 Supply asuransi, saat recv perlu print bukti recv. apakah disamakan saja recvnya seperti supply bengkel -> Done, Using Stock Picking Receipt
+3 Saat ambil sparepart ada pop up input foto salvage, setelah masukan foto status done dan foto masuk ke menu images dalam sub menu Salvage
+
+* Work Center -> Add Image on Pikcup Wizard
+
+1 Saat proses terakhir request for Qc dan jika approve, ada verify harus input foto dulu, setelah input foto status done, jika tidak input foto status masih di request for Qc tidak lanjut
+setelah foto diinput otomatis masuk ke data Image dalam sub menu inprogress
+
+* User Authorisasai
+
+1 Material Authorisasi sudah running apa blm ya pak.? ada yang perlu di setting kembali atau tidak.?
+2 menu menu di dalam SPK harus ada sub sub otorisasinya sesuai user login ( SA,Foreman,User Material BB, User Material Sparepart,Kasir)
+
+ISSUE: 20-02-2018
+
+1. Account Voucher reference cannot more than 10, change to 200 -> Done
+
+ISSUE: 17-02-2018
+
+1. Outstanding Payment From Customer to Pay -> Done
+2. POS Payment (Multiple Payment) -> Done
+3. Journal Item (Development Mode) -> Done
+

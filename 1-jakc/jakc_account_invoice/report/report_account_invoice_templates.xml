@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@class='page']" position="inside">
+                <div class="row" t-if="o.type == 'out_invoice'">
+                    <div class="col-xs-4">
+
+                    </div>
+                    <div class="col-xs-4">
+
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><strong>Bogor , </strong></span>
+                        </div>
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><![CDATA[&nbsp;]]></span>
+                        </div>
+                        <div class="row">
+                            <span><strong>(MARTINUS HERU HERMAWAN)</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</openerp>

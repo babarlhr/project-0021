@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="absence_summary_external_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_hr_schedule.absence_summary_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_hr_schedule.absence_summary_external_layout_footer"/>
+        </template>
+
+        <template id="absence_summary_external_layout_header">
+            <div class="header">
+                <div class="row">
+                    <center>
+                        <h2>Laporan Kehadiran</h2>
+                    </center>
+                </div>
+            </div>
+        </template>
+
+        <template id="absence_summary_external_layout_footer">
+            <div class="footer">
+            </div>
+        </template>
+
+        <template id="report_absencesummary">
+            <t t-call="report.html_container">
+                <t t-call="jakc_hr_schedule.absence_summary_external_layout">
+                    <div class="page">
+                        <table>
+                            <tr>
+                                <td>ID</td>
+                                <td>Name</td>
+                                <td>Hari Kerja</td>
+                                <td>Bukan Hari Kerja</td>
+                                <td>Hari Kerja</td>
+                                <td>Bukan Hari kerja</td>
+
+                            </tr>
+                            <t t-foreach="data['form']['employee_ids']" t-as="employee_id">
+                                <t t-set="employee" t-value="get_employee(employee_id)"/>
+                                <tr>
+                                    <td><span t-esc="employee.nik"/> </td>
+                                    <td><span t-esc="employee.name"/> </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <menuitem action="action_report_absence_summary" name="Absence Summary" id="menu_hr_absence_summary_report" parent="menu_hr_root_report" groups="base.group_hr_user" sequence="2"/>
+
+    </data>
+</openerp>

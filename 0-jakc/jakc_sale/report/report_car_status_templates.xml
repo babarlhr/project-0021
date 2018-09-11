@@ -84,33 +84,59 @@
                     </div>
                     <div class="row">
                         <t t-if="o.car_status_str == 'Selesai Perbaikan'">
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                  <span class="glyphicon glyphicon-check"></span>
                                  <span>SELESAI PERBAIKAN</span>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <span>RAWAT JALAN</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <span>TEST DRIVE</span>
                             </div>
                         </t>
                         <t t-if="o.car_status_str == 'Rawat Jalan'">
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                  <span class="glyphicon glyphicon-unchecked"></span>
                                  <span>SELESAI PERBAIKAN</span>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <span>RAWAT JALAN</span>
                             </div>
+                            <div class="col-xs-4">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <span>TEST DRIVE</span>
+                            </div>
                         </t>
-                        <t t-if="o.car_status_str == 'No Status'">
-                            <div class="col-xs-6">
+                        <t t-if="o.car_status_str == 'Test Drive'">
+                            <div class="col-xs-4">
                                  <span class="glyphicon glyphicon-unchecked"></span>
                                  <span>SELESAI PERBAIKAN</span>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <span>RAWAT JALAN</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="glyphicon glyphicon-check"></span>
+                                <span>TEST DRIVE</span>
+                            </div>
+                        </t>
+                        <t t-if="o.car_status_str == 'No Status'">
+                            <div class="col-xs-4">
+                                 <span class="glyphicon glyphicon-unchecked"></span>
+                                 <span>SELESAI PERBAIKAN</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <span>RAWAT JALAN</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <span>TEST DRIVE</span>
                             </div>
                         </t>
                     </div>

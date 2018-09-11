@@ -22,3 +22,4 @@ class WizardConsumeMaterial(models.TransientModel):
         consume_material_id = self.consume_material_id
         consume_material_id.employee_id = self.employee_id.id
         consume_material_id.trans_consume_material()
+        self.consume_material_id.sale_order_id.trans_merge_stock_move()

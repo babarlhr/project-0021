@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="workorderr_external_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_sale.workorderr_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_sale.workorderr_external_layout_footer"/>
+        </template>
+
+        <template id="workorderr_external_layout_header">
+            <div class="header">
+                <div class="col-xs-3">
+                    <div class="row">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 60px;"/>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <div class="row">
+                        <h2>Detail SPK</h2>
+                    </div>
+                     <div class="row">
+                        Report for : <t t-esc="data['form']['date_start']"/> -  <t t-esc="data['form']['date_end']"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="workorderr_external_layout_footer">
+            <div class="footer">
+            </div>
+        </template>
+
+        <template id="report_workorders">
+            <t t-call="report.html_container">
+                <t t-call="jakc_sale.workorderr_external_layout">
+                    <div class="page">
+                        <style>
+                            thead {
+                                display: table-header-group;
+                            }
+                            tfoot {
+                                display: table-row-group;
+                            }
+                            tr {
+                                page-break-inside: avoid;
+                            }
+                        </style>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>SPK #</td>
+                                    <td>Polisi #</td>
+                                    <td>Pemilik</td>
+                                    <td>Panel #</td>
+                                    <td>Total Jasa</td>
+                                    <td>Total Sparepart</td>
+                                    <td>OR</td>
+                                    <td>Asuransi</td>
+                                    <td>Surveyor</td>
+                                    <td>Status</td>
+                                    <td>Estimasi</td>
+                                    <td>Material</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-set="total_production_account" t-value="0"/>
+                                <t t-set="total_sale_workorder_amount" t-value="0"/>
+                                <t t-set="total_sparepart_line_count" t-value="0"/>
+                                <t t-set="total_or" t-value="0"/>
+                                <t t-set="total_scheduled_product_amount" t-value="0"/>
+                                <t t-foreach="_get_sale_orders(data['form'])" t-as="order">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <tr>
+                                        <td><t t-esc="no"/></td>
+                                        <td><t t-esc="order.name"/></td>
+                                        <td><t t-esc="order.partner_vehicle_id.name"/></td>
+                                        <td><t t-esc="order.owner.name"/></td>
+                                        <td><t t-esc="order.production_count"/></td>
+                                        <t t-set="total_production_account" t-value="total_production_account + order.production_count"/>
+                                        <td><t t-esc="'{:,.0f}'.format(int(order.sale_workorder_amount))"/></td>
+                                        <t t-set="total_sale_workorder_amount" t-value="total_sale_workorder_amount + order.sale_workorder_amount"/>
+                                        <td><t t-esc="order.sparepart_line_count"/></td>
+                                        <t t-set="total_sparepart_line_count" t-value="total_sparepart_line_count + order.sparepart_line_count"/>
+                                        <td><t t-esc="'{:,.0f}'.format(int(order.or_amount))"/></td>
+                                        <t t-set="total_or" t-value="total_or + (order.or_amount)"/>
+                                        <td><t t-esc="order.insurance_company_id.name"/></td>
+                                        <td><t t-esc="order.surveyor.name"/></td>
+                                        <t t-if="order.state == 'sale'">
+                                            <td>Sale Order</td>
+                                        </t>
+                                        <td><t t-esc="order.estimate_finish_date"/></td>
+                                        <td><t t-esc="'{:,.0f}'.format(int(order.scheduled_product_amount))"/></td>
+                                        <t t-set="total_scheduled_product_amount" t-value="total_scheduled_product_amount + order.scheduled_product_amount"/>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong><t t-esc="total_production_count"/></strong></td>
+                                    <td><strong><t t-esc="'{:,.0f}'.format(int(total_sale_workorder_amount))"/></strong></td>
+                                    <td><strong><t t-esc="total_sparepart_line_count"/></strong></td>
+                                    <td><strong><t t-esc="'{:,.0f}'.format(int(total_or))"/></strong></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong><t t-esc="'{:,.0f}'.format(int(total_scheduled_product_amount))"/></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="workorder_summary_external_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_sale.workorder_summary_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_sale.workorder_summary_external_layout_footer"/>
+        </template>
+
+        <template id="workorder_summary_external_layout_header">
+            <div class="header">
+                <div class="col-xs-3">
+                    <div class="row">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 60px;"/>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <div class="row">
+                        <h2>Summary SPK</h2>
+                    </div>
+                    <div class="row">
+                        Report for : <t t-esc="data['form']['date_start']"/> -  <t t-esc="data['form']['date_end']"/>
+                    </div>
+
+                </div>
+            </div>
+        </template>
+
+        <template id="workorder_summary_external_layout_footer">
+            <div class="footer">
+            </div>
+        </template>
+
+        <template id="report_workorder_summary">
+            <t t-call="report.html_container">
+                <t t-call="jakc_sale.workorder_summary_external_layout">
+                    <div class="page">
+                        <style>
+                            thead {
+                                display: table-header-group;
+                            }
+                            tfoot {
+                                display: table-row-group;
+                            }
+                            tr {
+                                page-break-inside: avoid;
+                            }
+                        </style>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Tanggal</td>
+                                    <td>Total Jasa</td>
+                                    <td>Total OR</td>
+                                    <td>Total Material</td>
+                                    <td>Total SPK</td>
+                                    <td>Total Panel</td>
+                                    <td>Total Sparepart</td>
+                                    <td>Total Personal</td>
+                                    <td>Total Insurance</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-set="total_jasa" t-value="0"/>
+                                <t t-set="total_or" t-value="0"/>
+                                <t t-set="total_material" t-value="0"/>
+                                <t t-set="total_spk" t-value="0"/>
+                                <t t-set="total_panel" t-value="0"/>
+                                <t t-set="total_sparepart" t-value="0"/>
+                                <t t-set="total_personal" t-value="0"/>
+                                <t t-set="total_insurance" t-value="0"/>
+                                <t t-foreach="_get_sale_order_summary(data['form'])" t-as="order">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <tr>
+                                        <td><t t-esc="no"/></td>
+                                        <td><t t-esc="order.get('date_order')"/></td>
+                                        <td><t t-esc="'{:,.0f}'.format(int(order.get('total_jasa')))"/></td>
+                                        <t t-set="total_jasa" t-value="total_jasa + order.get('total_jasa')"/>
+                                        <td><t t-esc="'{:,.0f}'.format(int(order.get('total_or')))"/></td>
+                                        <t t-set="total_or" t-value="total_or + order.get('total_or')"/>
+                                        <td><t t-esc="'{:,.0f}'.format(int(order.get('total_material')))"/></td>
+                                        <t t-set="total_material" t-value="total_material + order.get('total_material')"/>
+                                        <td><t t-esc="order.get('total_spk')"/></td>
+                                        <t t-set="total_spk" t-value="total_spk + order.get('total_spk')"/>
+                                        <td><t t-esc="order.get('total_panel')"/></td>
+                                        <t t-set="total_panel" t-value="total_panel + order.get('total_panel')"/>
+                                        <td><t t-esc="order.get('total_sparepart')"/></td>
+                                        <t t-set="total_sparepart" t-value="total_sparepart + order.get('total_sparepart')"/>
+                                        <td><t t-esc="order.get('total_personal')"/></td>
+                                        <t t-set="total_personal" t-value="total_personal + order.get('total_personal')"/>
+                                        <td><t t-esc="order.get('total_insurance')"/></td>
+                                        <t t-set="total_insurance" t-value="total_insurance + order.get('total_insurance')"/>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><t t-esc="'{:,.0f}'.format(int(total_jasa))"/></td>
+                                    <td><t t-esc="'{:,.0f}'.format(int(total_or))"/></td>
+                                    <td><t t-esc="'{:,.0f}'.format(int(total_material))"/></td>
+                                    <td><t t-esc="total_spk"/></td>
+                                    <td><t t-esc="total_panel"/></td>
+                                    <td><t t-esc="total_sparepart"/></td>
+                                    <td><t t-esc="total_personal"/></td>
+                                    <td><t t-esc="total_insurance"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_operatorfees">
+            <t t-call="report.html_container">
+                <t t-foreach="data['form']['employee_ids']" t-as="employee_id">
+                    <t t-call="report.internal_layout">
+                        <div class="page">
+                            <center><h4>Slip Upah Mekanik</h4></center>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <span>Periode</span>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <span><t t-esc="data['form']['periode_fee'][1]"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <span>Mekanik</span>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <span><t t-esc="_get_employee_name(employee_id)"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <span>Bagian</span>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <span><t t-esc="data['form']['routing_wc'][1]"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <span>Grade</span>
+                                        </div>
+                                        <div class="col-xs-9">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <span>No Pembayaran</span>
+                                        </div>
+                                        <div class="col-xs-6">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <span>Tgl Proses</span>
+                                        </div>
+                                        <div class="col-xs-6">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <span>Total Panel</span>
+                                        </div>
+                                        <div class="col-xs-6">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <span>Total Redo</span>
+                                        </div>
+                                        <div class="col-xs-6">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td>No</td>
+                                            <td>No. SPK</td>
+                                            <td>No. Polisi</td>
+                                            <td>Jasa Perbaikan</td>
+                                            <td>Kategori</td>
+                                            <td>Qty</td>
+                                            <td>Upah</td>
+                                            <td>Pos</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="no" t-value="0"/>
+                                        <t t-set="total_upah" t-value="0"/>
+                                        <t t-foreach="_get_mrp_production_workcenter_line_operators(employee_id, data['form']['periode_fee'][0], data['form']['routing_wc'])" t-as="operator">
+                                             <t t-set="no" t-value="no + 1"/>
+                                             <tr>
+                                                  <td><t t-esc="no"/></td>
+                                                  <td><t t-esc="operator.line_id.sale_order_id.name"/></td>
+                                                  <td><t t-esc="operator.line_id.sale_order_id.partner_vehicle_id.name"/></td>
+                                                  <td><t t-esc="operator.line_id.product.name"/></td>
+                                                  <td></td>
+                                                  <td></td>
+                                                  <td>
+                                                      <t t-esc="'{:,.0f}'.format(int(operator.operator_fee))"/>
+                                                      <t t-set="total_upah" t-value="total_upah + operator.operator_fee"/>
+                                                  </td>
+                                                  <td></td>
+                                              </tr>
+                                         </t>
+                                        <tr>
+                                            <td colspan="6"><strong>Total Fee</strong></td>
+                                            <td>
+                                                 <strong><t t-esc="'{:,.0f}'.format(int(total_upah))"/></strong>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <menuitem id="menu_operator_fee"
+                  name="Operator Fee"
+                  parent="base.workshop_report_menu"
+                  action="act_report_operator_fees"
+                  sequence="2"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		
+		
+		
+	    <record model="ir.ui.view" id="view_account_parent_tree">
+	        <field name="name">account.account.parent.tree</field>
+	        <field name="model">account.account</field>
+	        <field name="inherit_id" ref="account.view_account_list"/>
+	        <field name="arch" type="xml">
+	            <field name="user_type_id" position="after">                	
+					<field name="parent_id"/> 	
+	            </field>
+	        </field>
+	    </record>
+		
+		
+	    <record model="ir.ui.view" id="view_account_parent">
+	        <field name="name">account.account.parent.form</field>
+	        <field name="model">account.account</field>
+	        <field name="inherit_id" ref="account.view_account_form"/>
+	        <field name="arch" type="xml">
+	            <field name="user_type_id" position="after">                	
+					<field name="parent_id" on_change="onchange_parent(parent_id)"/>	
+	            </field>
+	        </field>
+	    </record>
+		        	
+        
+	    
+        <record id="view_account_tree_hirarki" model="ir.ui.view">
+            <field name="name">account.account.tree</field>
+            <field name="model">account.account</field>
+            <field name="field_parent">child_id</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:jenis == 'View'" string="Chart of accounts" toolbar="1" >
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="jenis"/>
+                    <field name="parent_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_account_tree_hirarki" model="ir.actions.act_window">
+            <field name="name">Chart of Accounts</field>
+            <field name="res_model">account.account</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="view_account_tree_hirarki"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+	    
+	    <menuitem id="menu_coa_hirarki" parent="account.menu_finance_entries" name="CoA" action="action_account_tree_hirarki"/>
+           	
+        	        
+	</data>
+</openerp>
+

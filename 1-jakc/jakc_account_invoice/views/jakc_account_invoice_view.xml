@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="jakc_project_0021_account_invoice_form_inherit_view">
+            <field name="name">jakc.project.0021.account.invoice.form.inherit.view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/*" position="after">
+                    <button name="invoice_print" string="Print Invoice" type="object" states="paid" groups="base.group_user"/>
+                </xpath>
+                <field name="payment_term_id" position="after">
+                    <field name="printed_num"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_invoice_tree_inherit_view" model="ir.ui.view">
+            <field name="model">account_invoice_tree_inherit_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="state" position="before">
+                    <field name="delivery_state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_delivery_form" model="ir.ui.view">
+            <field name="name">account.invoice.delivery.form</field>
+            <field name="model">account.invoice.delivery</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="trans_sent" string="Sent to Customer" type="object" class="oe_highlight" states="draft" confirm="Are you sure confirm invoice delivery?"/>
+                        <button name="trans_delivered" string="Delivered" type="object" class="oe_highlight" states="sent" confirm="Are you sure confirm invoice delivery?"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="messenger_id"/>
+                            <field name="attachment_filename"/>
+                            <field name="attachment" filename="attachment_filename" attrs="{'invisible': [('state','=','draft')], 'required':[('state','!=','draft')]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Invoices" name="invoices">
+                                <field name="account_invoice_ids" widget="many2many" domain="[('state','=','open'),('iface_delivered', '=', False)]"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_delivery_tree" model="ir.ui.view">
+            <field name="name">account.invoice.delivery.tree</field>
+            <field name="model">account.invoice.delivery</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="messenger_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_account_invoice_delivery" model="ir.actions.act_window">
+            <field name="name">Invoice Delivery</field>
+            <field name="res_model">account.invoice.delivery</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_account_invoice_delivery"
+                  id="menu_account_invoice_delivery"
+                  parent="account.menu_finance_receivables"
+                  sequence="2" groups="account.group_account_user"/>
+
+    </data>
+
+</openerp>

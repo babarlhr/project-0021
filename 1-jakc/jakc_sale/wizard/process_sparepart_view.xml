@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Claim Insurance Sparepart for Production -->
+        <record id="wizard_process_production_sparepart_form_view" model="ir.ui.view">
+            <field name="name">wizard.process.production.sparepart.form.view</field>
+            <field name="model">wizard.process.production.sparepart</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Process Sparepart">
+                    <group>
+                        <field name="sparepart_id"/>
+                        <field name="employee_id"/>
+                        <field name="qty"/>
+                    </group>
+                    <group>
+                         <field name="attachment" widget="image"/>
+                    </group>
+                    <footer>
+                        <button name="process_sparepart" type="object" string="Process" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_insurance_sparepart_production" model="ir.actions.act_window">
+            <field name="name">Sent to Production</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.process.production.sparepart</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_process_production_sparepart_form_view"/>
+        </record>
+
+        <record id="wizard_insurance_sparepart_form_view" model="ir.ui.view">
+            <field name="name">wizard.insurance.sparepart.form.view</field>
+            <field name="model">wizard.insurance.sparepart</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Insurance Sparepart">
+                    <group>
+                        <field name="sparepart_id"/>
+                    </group>
+                    <footer>
+                        <button name="process_sparepart" type="object" string="Process" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_insurance_sparepart" model="ir.actions.act_window">
+            <field name="name">Insurance Sparepart</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.insurance.sparepart</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_insurance_sparepart_form_view"/>
+        </record>
+
+        <!-- Receive Sparepart from Insurance Company -->
+        <record id="wizard_insurance_sparepart_received_form_view" model="ir.ui.view">
+            <field name="name">wizard.insurance.sparepart.received.form.view</field>
+            <field name="model">wizard.insurance.sparepart.received</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Insurance Sparepart Received">
+                    <group>
+                        <field name="sparepart_id"/>
+                    </group>
+                    <footer>
+                        <button name="process_sparepart" type="object" string="Process" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_insurance_sparepart_received" model="ir.actions.act_window">
+            <field name="name">Insurance Sparepart Received</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.insurance.sparepart.received</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_insurance_sparepart_received_form_view"/>
+        </record>
+
+    </data>
+</odoo>

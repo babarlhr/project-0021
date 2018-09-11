@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="jakc_project_0021_stock_config_settings_inherit_view">
+            <field name="name">jakc.project.0021.stock.config.settings.inherit.view</field>
+            <field name="model">stock.config.settings</field>
+            <field name="inherit_id" ref="stock.view_stock_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/*" position="after">
+                    <group string="Notification">
+                        <label for="stock_email"/>
+                        <div>
+                            <div>
+                                <field name="stock_email"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template name="Homepage" priority="29" t-name="website.homepage">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="jumbotron text-center">
+                        <h1>Andaru Motor</h1>
+                        <p>Work Order Finder</p>
+                        <form>
+                             <div class="input-group">
+                                <input type="text" class="form-control" size="50" name="txtsearch" placeholder="Nomor Polisi atau Nomor Polis Asuransi"/>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-danger" onclick='window.location.href="/workshop/workorder/find/document.getElementById("txtsearch").value;"'>Cari</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

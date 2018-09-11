@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="report_workorderr"
+            string="Sale Workorders"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="jakc_sale.report_workorderr"
+            name="jakc_sale.report_workorderr"
+        />
+    </data>
+</openerp>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="wizard_process_exception_form_view">
+            <field name="name">wizard.processs.exception.form</field>
+            <field name="model">wizard.process.exception</field>
+            <field name="arch" type="xml">
+                <form string="Process Absence">
+                    <group>
+                        <field name="schedule_detail_exception_id"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="actual_in"/>
+                        <field name="actual_out"/>
+                        <field name="exception_code"/>
+                        <field name="exception_reason"/>
+                        <field name="exception_description"/>
+                    </group>
+                     <footer>
+                        <button name="process_exception" type="object" string="Process" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_process_exception">
+            <field name="name">Process Exception</field>
+            <field name="res_model">wizard.process.exception</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_process_exception_form_view" />
+            <field name="context">{'default_schedule_detail_exception_id':active_id}</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.ui.view" id="wizard_process_exception_approved_form_view">
+            <field name="name">wizard.process.exception.approved.form</field>
+            <field name="model">wizard.process.exception.approved</field>
+            <field name="arch" type="xml">
+                <form string="Process Absence">
+                    <group>
+                        <field name="schedule_detail_exception_id"/>
+                        <field name="employee_id"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="actual_in"/>
+                        <field name="actual_out"/>
+                        <field name="exception_code"/>
+                        <field name="exception_reason"/>
+                        <field name="approved_state"/>
+                        <field name="approved_reason" attrs="{'invisible':[('approved_state','!=','reject')],'required':[('approved_state','=','reject')]}"/>
+                    </group>
+                     <footer>
+                        <button name="process_exception_approved" type="object" string="Process" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_process_exception_approved">
+            <field name="name">Process Exception Approved</field>
+            <field name="res_model">wizard.process.exception.approved</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_process_exception_approved_form_view" />
+            <field name="context">{'default_schedule_detail_exception_id':active_id}</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

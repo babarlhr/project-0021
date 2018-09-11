@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+        <template id="account_invoice_delivery_external_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_account_invoice.account_invoice_delivery_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_account_invoice.account_invoice_delivery_external_layout_footer"/>
+        </template>
+
+        <template id="account_invoice_delivery_external_layout_header">
+            <div class="header">
+                <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 60px;"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div clss="row">
+                                        <span t-field="company.name"/>
+                                    </div>
+                                    <div class="row">
+                                         <span t-field="company.street"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+
+                        </div>
+                    </div>
+            </div>
+        </template>
+
+        <template id="account_invoice_delivery_external_layout_footer">
+            <div class="footer">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="row">
+                            <span>Delivered By</span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span><![CDATA[&nbsp;]]></span>
+                            <span>(                 )</span>
+                        </div>
+                    </div>
+                     <div class="col-xs-3">
+                    </div>
+                     <div class="col-xs-3">
+                         <span>Received By</span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span><![CDATA[&nbsp;]]></span>
+                         <span>(                 )</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_account_invoice_delivery_document">
+            <t t-call="jakc_account_invoice.account_invoice_delivery_external_layout">
+                <div class="page">
+                     <div class="row mt32 mb32">
+                        <div class="col-xs-2" t-if="o.name">
+                            <strong>Delivery #:</strong>
+                            <p t-field="o.name"/>
+                        </div>
+                        <div class="col-xs-2" t-if="o.date">
+                            <strong>Delivery Date:</strong>
+                            <p t-field="o.date"/>
+                        </div>
+                         <div class="col-xs-2" t-if="o.messenger_id">
+                            <strong>Messenger:</strong>
+                            <p t-field="o.messenger_id"/>
+                        </div>
+                           <div class="col-xs-2" t-if="o.messenger_id">
+                            <strong>Status:</strong>
+                            <p t-field="o.state"/>
+                        </div>
+                    </div>
+                     <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span>Invoice #</span></th>
+                                <th><span>Partner</span></th>
+                                <th><span>Date</span></th>
+                                <th><span>Source</span></th>
+                                <th><span>Total</span></th>
+                                <th><span>To Pay</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.account_invoice_ids" t-as="l">
+                                    <td><span t-esc="l.number"/></td>
+                                    <td><span t-esc="l.partner_id.name"/></td>
+                                    <td><span t-esc="l.date_invoice"/></td>
+                                    <td><span t-esc="l.origin"/></td>
+                                    <td><span t-esc="l.amount_total"/></td>
+                                    <td><span t-esc="l.residual"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_accountinvoice_delivery">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="jakc_account_invoice.report_account_invoice_delivery_document"/>
+                </t>
+            </t>
+        </template>
+
+</data>
+</openerp>

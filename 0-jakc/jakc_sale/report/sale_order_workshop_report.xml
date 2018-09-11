@@ -3,7 +3,7 @@
     <data>
         <report
             id="report_sale_order_workshop"
-            string="Work Order"
+            string="SPK"
             model="sale.order"
             report_type="qweb-pdf"
             file="jakc_sale.report_saleorder_workshop"

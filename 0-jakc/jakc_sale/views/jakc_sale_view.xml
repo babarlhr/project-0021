@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-         <record id="sale_order_workshop_kanban" model="ir.ui.view">
+        <record id="sale_order_workshop_kanban" model="ir.ui.view">
              <field name="name">sale.order.workshop.kanban</field>
              <field name="model">sale.order</field>
              <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
@@ -90,18 +90,26 @@
                          </div>
                          <div class="row">
                              <div class="col-xs-6">
-                                <span>Sparepart :</span>
+                                <span>Spare Part :</span>
                              </div>
                              <div class="col-xs-6">
-                                 <span>0 of <field name="sparepart_line_count"/></span>
+                                 <span><field name="sparepart_line_available_count"/> of <field name="sparepart_line_count"/></span>
                              </div>
                          </div>
                          <div class="row">
                              <div class="col-xs-6">
-                                <span>Incoming Spart Part :</span>
+                                <span>Incoming Spare Part :</span>
                              </div>
                              <div class="col-xs-6">
                                  <span><field name="estimate_sparepart_product"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Spare Part Usage:</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="sparepart_line_done_count"/> of <field name="sparepart_line_available_count"/></span>
                              </div>
                          </div>
                          <div class="row">
@@ -124,7 +132,8 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//header/button[@name='action_cancel']">
-                    <button name="trans_insurance_sparepart" attrs="{'invisible': [('iface_insurance','=', False)]}" string="Add Insurance Sparepart" type="object" class="oe_highlight"/>
+                    <button name="trans_print_spk" string="Print SPK" type="object" attrs="{'invisible': [('iface_workorder','=',False)]}" class="oe_highlight"/>
+                    <button name="trans_print_spb" string="Print SPB" type="object" attrs="{'invisible': [('iface_workorder','=',False)]}" class="oe_highlight"/>
                 </xpath>
                 <field name="partner_id" position="before">
                     <field name="iface_workorder" attrs="{'invisible':True}"/>
@@ -148,22 +157,27 @@
                     <field name="driver_out" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
                     <field name="distance" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
                 </field>
-
                 <field name="payment_term_id" position="after">
                     <field name="printed_num"/>
                     <field name="sparepart_stock_picking_id"/>
-                    <field name="scheduled_product_amount"/>
-                    <field name="scheduled_product_percentage"/>
+                    <field name="scheduled_product_amount" groups="base.group_no_one"/>
+                    <field name="scheduled_product_percentage" groups="base.group_no_one"/>
                 </field>
-
+                <xpath expr="//field[@name='order_line']" position="before">
+                    <br/>
+                    <button name="%(jakc_sale.act_add_order_line)d" string="Order Sparepart" type="action" attrs="{'invisible': [('iface_workorder','=',False)]}" class="oe_highlight"/>
+                    <button name="trans_insurance_sparepart" attrs="{'invisible': [('iface_insurance','=', False)]}" string="Add Insurance Sparepart" type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="iface_sparepart"/>
+                </xpath>
                 <xpath expr="//notebook/page[1]/field[@name='order_line']" position="after">
-                    <field name="sparepart_line_ids"  attrs="{'invisible': [('sparepart_stock_picking_id','=',False)]}">
+                    <field name="sparepart_line_ids"  attrs="{'invisible': [('iface_insurance','=',False)]}">
                         <tree editable="bottom">
                             <field name="product_id"/>
                             <field name="product_uom_qty"/>
                             <field name="product_uom"/>
                             <field name="expected_date"/>
-                            <field name="stock_move_id"/>
                         </tree>
                     </field>
                 </xpath>
@@ -184,7 +198,7 @@
                     <page string="Images" attrs="{'invisible': [('iface_workorder','=',False)]}">
                         <group>
                             <notebook>
-                                <page string="Attachment">
+                                <page string="Before">
                                     <field name="attachment_ids"  mode="kanban">
                                         <kanban>
                                             <field name="attachment"/>
@@ -201,7 +215,7 @@
                                         </kanban>
                                     </field>
                                 </page>
-                                <page string="Before">
+                                <page string="In Progress">
                                      <field name="before_ids"  mode="kanban">
                                         <kanban>
                                             <field name="attachment"/>
@@ -300,6 +314,29 @@
                             </tree>
                         </field>
                     </page>
+                    <page string="Sparepart" attrs="{'invisible': [('iface_workorder','=',False)]}" >
+                        <br/>
+                        <button name="trans_sparepart" string="Check Sparepart" type="object" class="oe_highlight"/>
+                        <br/>
+                        <field name="sparepart_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom"/>
+                                <field name="type"/>
+                                <field name="employee_id"/>
+                                <field name="product_qty_available"/>
+                                <field name="qty_done"/>
+                                <field name="state"/>
+                                <button name="%(jakc_sale.act_process_sparepart)d"
+                                        string="Process Sparepart"
+                                        type="action"
+                                        icon="fa-shopping-cart"
+                                        attrs="{'invisible':[('state','!=', 'assigned')]}"
+                                />
+                            </tree>
+                        </field>
+                    </page>
                     <page string="Material"  attrs="{'invisible': [('iface_workorder','=',False)]}">
                         <br/>
                         <button  name="trans_merge_stock_move" string="Calculate Material" type="object" class="oe_highlight"/>
@@ -340,8 +377,8 @@
                                 <field name="product_uom_qty"/>
                                 <field name="product_uom"/>
                                 <field name="stock_move_id"/>
-                                <field name="iface_approval"/>
                                 <field name="approved_by"/>
+                                <field name="state"/>
                             </tree>
                         </field>
                         <br/>
@@ -423,6 +460,33 @@
             id="menu_workshop_order" parent="base.workshop_workorder_menu"
             sequence="12" groups="base.group_sale_salesman,base.group_sale_manager"/>
 
+        <!-- WORKSHOP/SALE ORDER SPAREPART LINE-->
+        <record model="ir.ui.view" id="sale_order_sparepart_line_form">
+            <field name="name">Sale Order Sparepart Line</field>
+            <field name="model">sale.order.sparepart.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="product_uom_qty"/>
+                        <field name="product_uom"/>
+                        <field name="expected_date"/>
+                    </group>
+                    <notebook>
+                        <page string="Move">
+                            <field name="stock_move_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
         <!-- WORKSHOP/SALE ORDER BEFORE IMAGE-->
         <record model="ir.ui.view" id="view_sale_order_before_image_form">
             <field name="name">Sale Order Before Image Form</field>
@@ -437,7 +501,33 @@
             </field>
         </record>
 
-         <!-- WORKSHOP/PARTNER VEHICLE -->
+        <!-- WORKSHOP/SALE ORDER ADD MATERIAL -->
+        <record model="ir.ui.view" id="view_sale_order_add_material_form">
+            <field name="name">Sale Order Add MaterialForm</field>
+            <field name="model">sale.order.add.material</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="trans_approve" string="Approve" type="object" confirm="Are you sure to approve?" states="request"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="trans_date"/>
+                            <field name="product_id"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="employee_id"/>
+                            <field name="approved_by"/>
+                            <field name="stock_move_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/PARTNER VEHICLE -->
 
         <record model="ir.ui.view" id="view_partner_vehicle_inherit_form">
             <field name="name">Partner Vehicle Inherit</field>
@@ -461,7 +551,6 @@
             </field>
         </record>
 
-
         <!-- WORKORDER/VEHICLE STATUS-->
 
         <record id="view_sale_order_car_status_form" model="ir.ui.view">
@@ -481,7 +570,6 @@
                 </form>
             </field>
         </record>
-
 
         <record model="ir.ui.view" id="view_procurement_order_inherit_form">
             <field name="name">view.procurement.order.inherit.form</field>
@@ -531,6 +619,7 @@
             <field name="arch" type="xml">
                 <field name="workcenter_id" position="after">
                     <field name="mechanic_percentage"/>
+                    <field name="mechanic_fix"/>
                 </field>
             </field>
         </record>
@@ -621,7 +710,6 @@
                 </xpath>
             </field>
         </record>
-
 
         <record id="act_so_2_mo" model="ir.actions.act_window">
             <field name="name">Production</field>

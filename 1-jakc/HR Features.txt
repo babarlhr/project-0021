@@ -1,0 +1,16 @@
+HR Features
+
+1. Register Employee
+2. Register Contract for Employee
+3. Setup Master Schedule
+4. Setup Schedule for Employee (Weekly or Monthly)
+5. Setup Salary Rule
+6. Setup Salary Rule for Employee
+7. Setup Commision for Employee
+8. Pph 21
+9. Payslip for Employee
+10. Paylip Integrated with Accounting
+
+
+
+

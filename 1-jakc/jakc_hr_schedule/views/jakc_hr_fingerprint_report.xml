@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<openerp>
+    <data>
+        <report
+            id="report_fingerprint_detail"
+            string="Finger Print Details"
+            model="hr.absence"
+            report_type="qweb-pdf"
+            name="jakc_hr_schedule.report_fingerprintdetails"
+            file="jakc_hr_schedule.report_fingerprintdetails"
+            menu="False"
+         />
+
+        <record id="paperformat_fingerprint_detail" model="report.paperformat">
+            <field name="name">Employee Finger Print Detail</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="jakc_hr_schedule.report_fingerprint_detail" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="jakc_hr_schedule.paperformat_fingerprint_detail"/>
+        </record>
+
+    </data>
+</openerp>

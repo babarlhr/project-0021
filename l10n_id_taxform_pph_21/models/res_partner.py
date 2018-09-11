@@ -45,11 +45,9 @@ class ResPartner(models.Model):
         ptkp_category = self.ptkp_category_id
 
         if not ptkp_category:
-            raise models.ValidationError(
-                _("Partner's PTKP Category is not configured"))
+            raise models.ValidationError(_("Partner's PTKP Category is not configured"))
 
-        jumlah_penghasilan_rutin = gaji + \
-            tunjangan_pph + tunjangan_lain
+        jumlah_penghasilan_rutin = gaji + tunjangan_pph + tunjangan_lain
 
         obj_biaya_jabatan = self.env["l10n_id.pph_21_biaya_jabatan"]
         perhitungan_biaya_jabatan = obj_biaya_jabatan.find(

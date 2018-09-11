@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_stock_move_consume_inherit" model="ir.ui.view">
+            <field name="name">Stock Move Consume Inherit</field>
+            <field name="model">stock.move.consume</field>
+            <field name="inherit_id" ref="mrp.view_stock_move_consume_wizard"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="product_bom_qty"/>
+                </xpath>
+                <xpath expr="//field[@name='restrict_lot_id']" position="before">
+                    <field name="product_diff"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

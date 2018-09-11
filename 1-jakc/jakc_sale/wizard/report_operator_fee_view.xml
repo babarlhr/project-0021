@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_report_operator_fees" model="ir.ui.view">
+            <field name="name">Operator Fees</field>
+            <field name="model">operator.fees</field>
+            <field name="arch" type="xml">
+                <form string="Operator Fees">
+                    <group string="Dates">
+                        <field name="periode_fee"/>
+                        <field name="routing"/>
+                        <field name="routing_wc"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" type="object" string="Print Report" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_report_operator_fees" model="ir.actions.act_window">
+            <field name="name">Operator Fees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">operator.fees</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

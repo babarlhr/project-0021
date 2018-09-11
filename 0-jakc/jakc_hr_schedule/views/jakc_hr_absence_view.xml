@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_hr_absence_tree" model="ir.ui.view">
+            <field name="name">hr.absence.tree</field>
+            <field name="model">hr.absence</field>
+            <field name="arch" type="xml">
+                <tree string="Absence">
+                    <field name="name"/>
+                    <field name="trans_date_time"/>
+                    <field name="machine_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+         <record model="ir.ui.view" id="view_hr_absence_filter">
+            <field name="name">view_hr_absence_filter</field>
+            <field name="model">hr.absence</field>
+            <field name="arch" type="xml">
+                <search string="Hr Absence Search">
+                    <field string="Employee" name="name" />
+                    <filter string="Today" name="today" domain="[('trans_date_time','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('name','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]" />
+                    <filter string="Current Month" domain="[('trans_date_time','&gt;=', datetime.datetime.now().strftime('%Y-%m-01'))]" />
+                    <separator/>
+                    <filter string="My Absence" domain="[('name.user_id.id', '=', uid)]" />
+                    <group expand="0" string="Group By">
+                        <filter name="employee" string="Employee" context="{'group_by':'employee_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="open_view_absence" model="ir.actions.act_window">
+            <field name="name">Absences</field>
+            <field name="res_model">hr.absence</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_today":1}</field>
+            <field name="search_view_id" ref="view_hr_absence_filter" />
+            <field name="help">The Time Tracking functionality aims to manage employee attendances from Sign in/Sign out actions. You can also link this feature to an attendance device using Odoo's web service features.</field>
+        </record>
+
+        <menuitem id="menu_hr_absence_root"
+                  name="Absence"
+                  parent="jakc_hr_schedule.menu_time_attendance"
+                  sequence="20"
+                  groups="base.group_hr_user"/>
+
+        <menuitem action="open_view_absence"
+                  id="menu_open_view_absence"
+                  parent="menu_hr_absence_root"
+                  sequence="2" groups="base.group_hr_user"/>
+
+        <menuitem action="action_process_absence"
+                  id="menu_open_view_process_absence"
+                  parent="menu_hr_absence_root"
+                  sequence="3"
+                  groups="base.group_hr_user"/>
+
+
+        <!-- My Absence View -->
+
+         <record model="ir.ui.view" id="view_my_hr_absence_filter">
+            <field name="name">view_my_hr_absence_filter</field>
+            <field name="model">hr.absence</field>
+            <field name="arch" type="xml">
+                <search string="Hr Absence Search">
+                    <field string="Employee" name="name" />
+                    <filter string="Today" name="today" domain="[('trans_date_time','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('trans_date_time','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]" />
+                    <filter string="Current Month" domain="[('trans_date_time','&gt;=', datetime.datetime.now().strftime('%Y-%m-01'))]" />
+                </search>
+            </field>
+        </record>
+
+        <record id="my_open_view_absence" model="ir.actions.act_window">
+            <field name="name">Absences</field>
+            <field name="res_model">hr.absence</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['|',('name.user_id.id','=',uid),('name.parent_id.user_id.id','=', uid)]</field>
+            <field name="context">{"search_default_today":1}</field>
+            <field name="search_view_id" ref="view_my_hr_absence_filter" />
+            <field name="help">The Time Tracking functionality aims to manage employee attendances from Sign in/Sign out actions. You can also link this feature to an attendance device using Odoo's web service features.</field>
+        </record>
+
+         <menuitem action="my_open_view_absence"
+                  id="my_menu_open_view_absence"
+                  parent="menu_my_absence"
+                  sequence="3" groups="base.group_user"/>
+
+
+    </data>
+</openerp>

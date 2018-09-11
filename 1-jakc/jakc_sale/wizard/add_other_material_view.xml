@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="wizard_add_other_material_form_view" model="ir.ui.view">
+            <field name="name">wizard.add.other.material.form</field>
+            <field name="model">wizard.add.other.material</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Add Material">
+                    <group>
+                        <field name="product_id" domain="[('categ_id','=', 10)]"/>
+                        <field name="employee_id"/>
+                        <field name="product_qty"/>
+                        <field name="product_uom"/>
+                    </group>
+                     <footer>
+                        <button name="add_material" type="object" string="Add Material" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="act_add_other_material" model="ir.actions.act_window">
+            <field name="name">Add Material</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.add.other.material</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_add_material_form_view"/>
+        </record>
+
+    </data>
+</odoo>

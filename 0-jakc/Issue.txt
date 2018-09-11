@@ -1,0 +1,7 @@
+
+ISSUE: 17-02-2018
+
+1. Outstanding Payment From Customer to Pay
+2. POS Payment (Multiple Payment)
+3. Journal Item (Development Mode)
+

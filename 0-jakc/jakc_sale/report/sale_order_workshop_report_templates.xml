@@ -64,6 +64,11 @@
                                         <td style="padding-left: 5px;"><span t-esc="o.last_spk.name"/></td>
                                     </tr>
                                     <tr>
+                                        <td>Printed #</td>
+                                        <td style="padding-left: 5px;">:</td>
+                                        <td style="padding-left: 5px;"><span t-esc="o.printed_num"/></td>
+                                    </tr>
+                                    <tr>
                                         <td>Tgl. Aktual Masuk</td>
                                         <td style="padding-left: 5px;">:</td>
                                         <td style="padding-left: 5px;"><span t-esc="context_timestamp(datetime.datetime.strptime(o.date_order,'%Y-%m-%d %H:%M:%S')).strftime('%d/%m/%Y %H:%M:%S')"/></td>
@@ -92,6 +97,11 @@
                                         <td>OR #</td>
                                         <td style="padding-left: 5px;">:</td>
                                         <td style="padding-left: 5px;"><span t-esc="o.or_count"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Material Amount</td>
+                                        <td style="padding-left: 5px;">:</td>
+                                        <td style="padding-left: 5px;"><span t-esc="o.scheduled_product_amount"/></td>
                                     </tr>
                                 </table>
                             </div>
@@ -182,14 +192,16 @@
                                 <tbody>
                                     <t t-foreach="o.order_line" t-as="l">
                                         <t t-if="l.product_id.iface_worktype">
-                                            <tr>
-                                                <td>
-                                                    <span t-field="l.product_id.name"/>
-                                                </td>
-                                                <td>
-                                                    <span t-field="l.product_uom_qty"/>
-                                                </td>
-                                            </tr>
+                                            <t t-if="l.product_uom_qty != 0">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="l.product_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="l.product_uom_qty"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </t>
                                     </t>
                                 </tbody>
@@ -215,15 +227,17 @@
                                         </tr>
                                     </t>
                                     <t t-foreach="o.order_line" t-as="l">
-                                        <t t-if="not l.product_id.iface_worktype">
-                                            <tr>
-                                                <td>
-                                                    <span t-field="l.product_id.name"/>
-                                                </td>
-                                                <td>
-                                                    <span t-field="l.product_uom_qty"/>
-                                                </td>
-                                            </tr>
+                                        <t t-if="l.iface_sparepart">
+                                            <t t-if="l.product_uom_qty != 0">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="l.product_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="l.product_uom_qty"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </t>
                                     </t>
                                 </tbody>
@@ -243,7 +257,6 @@
                 </t>
             </t>
         </template>
-
 
         <template id="report_work_order_material_document">
             <t t-call="jakc_sale.material_report_layout">
@@ -305,16 +318,18 @@
                                     <tbody>
                                         <t t-set="no" t-value="0"/>
                                         <t t-foreach="o.consume_material_ids" t-as="material">
-                                            <t t-set="no" t-value="no + 1"/>
-                                            <tr>
-                                                <td><span t-esc="no"/></td>
-                                                <td><span t-esc="material.product_id.name"/></td>
-                                                <td><span t-esc="material.quantity"/></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            <t t-if="material.quantity > 0">
+                                                <t t-set="no" t-value="no + 1"/>
+                                                <tr>
+                                                    <td><span t-esc="no"/></td>
+                                                    <td><span t-esc="material.product_id.name"/></td>
+                                                    <td><span t-esc="material.quantity"/></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </t>
                                         </t>
                                     </tbody>
                                 </table>

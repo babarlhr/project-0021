@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_company_inherit_form">
+            <field name="name">res.company.form.inherit</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Manufacture">
+                        <group>
+                            <field name="routing_wc"/>
+                            <field name="or_amount"/>
+                            <field name="material_product_category_id"/>
+                            <field name="iface_auto_reserve"/>
+                            <field name="add_material_authorized"/>
+                        </group>
+                    </page>
+                    <page string="Insurance Sparepart">
+                        <group>
+                            <field name="warehouse_id"/>
+                            <field name="insurance_location_src_id"/>
+                            <field name="insurance_location_dest_id"/>
+                            <field name="production_location_id"/>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="move_type"/>
+                            <field name="picking_type_id"/>
+                            <field name="production_picking_type_id"/>
+                            <field name="priority"/>
+                            <field name="iface_final_cogs"/>
+                            <field name="cogs_product_category_id"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

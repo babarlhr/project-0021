@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<openerp>
+    <data>
+        <report
+            id="report_absence_detail"
+            string="Absence Details"
+            model="hr.absence"
+            report_type="qweb-pdf"
+            name="jakc_hr_schedule.report_absencedetails"
+            file="jakc_hr_schedule.report_absencedetails"
+            menu="False"
+         />
+
+        <record id="paperformat_schedule_detail" model="report.paperformat">
+            <field name="name">Employee Schedule Detail</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="jakc_hr_schedule.report_absence_detail" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="jakc_hr_schedule.paperformat_schedule_detail"/>
+        </record>
+
+         <report
+            id="report_absence_summary"
+            string="Absence Summary"
+            model="hr.absence"
+            report_type="qweb-pdf"
+            name="jakc_hr_schedule.report_absencesummary"
+            file="jakc_hr_schedule.report_absencesummary"
+            menu="False"
+         />
+
+        <record id="paperformat_absence_summary" model="report.paperformat">
+            <field name="name">Report Absence Summary</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="jakc_hr_schedule.report_absence_summary" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="jakc_hr_schedule.paperformat_absence_summary"/>
+        </record>
+
+    </data>
+</openerp>

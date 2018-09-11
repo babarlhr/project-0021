@@ -9,7 +9,6 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-
 class MrpBom(models.Model):
     _inherit = 'mrp.bom'
 
@@ -71,6 +70,7 @@ class MrpProduction(models.Model):
 
     routing_wc_line_percentage = fields.Integer(string='Percentage(%)', compute="_compute_percentage")
 
+
 class MrpRoutingWorkCenter(models.Model):
     _inherit = ['mrp.routing.workcenter']
 
@@ -98,7 +98,8 @@ class MrpRoutingWorkCenter(models.Model):
         if workcenter_line_ids:
             self.workcenter_startworking = len(workcenter_line_ids)
 
-    mechanic_percentage = fields.Float('Mechanic Percentage', required=True)
+    mechanic_percentage = fields.Float('Mechanic Percentage', required=True, default=0)
+    mechanic_fix = fields.Float('Mechanic Fix', required=True, default=0)
     workcenter_count = fields.Integer(string='Workcenter Count', compute="_compute_workcenter_count")
     workcenter_draft = fields.Integer(string='Workcenter Draft', compute="_compute_workcenter_draft")
     workcenter_startworking = fields.Integer(string='Workcenter In progress', compute="_compute_workcenter_startworking")
@@ -150,7 +151,8 @@ class MrpProductionWorkcenterLine(models.Model):
         for production in production_ids:
             for line in production.workcenter_lines:
                 if line.routing_wc_line.id == self.routing_wc_line.id:
-                    result = super(MrpProductionWorkcenterLine, line).action_start_working()
+                    if line.state != 'cancel':
+                        result = super(MrpProductionWorkcenterLine, line).action_start_working()
         return True
 
     #@api.one

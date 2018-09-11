@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="stock_cards_external_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_stock.stock_cards_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_stock.stock_cards_external_layout_footer"/>
+        </template>
+
+        <template id="stock_cards_external_layout_header">
+            <div class="header">
+                <div class="col-xs-3">
+                    <div class="row">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 60px;"/>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <div class="row">
+                        <h2>Kartu Stok</h2>
+                    </div>
+                    <div class="row">
+                        <span><t t-esc="data['form']['date_from']"/> - <t t-esc="data['form']['date_from']"/></span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="stock_cards_external_layout_footer">
+            <div class="footer">
+            </div>
+        </template>
+
+        <template id="report_stockcards">
+            <t t-call="report.html_container">
+                <t t-call="jakc_stock.stock_cards_external_layout">
+                    <div class="page">
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Name</td>
+                                    <td>Code</td>
+                                    <td>Awal</td>
+                                    <td>Masuk</td>
+                                    <td>Keluar</td>
+                                    <td>Akhir</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-foreach="_get_lines(data['form'])" t-as="line">
+                                        <tr>
+                                            <td><t t-esc="line.get('num')"/></td>
+                                            <td><t t-esc="line.get('name')"/></td>
+                                            <td><t t-esc="line.get('code')"/></td>
+                                            <td><t t-esc="line.get('qty_dk')"/></td>
+                                            <td><t t-esc="line.get('qty_in_tk')"/></td>
+                                            <td><t t-esc="line.get('qty_out_tk')"/></td>
+                                            <td><t t-esc="line.get('qty_ck')"/></td>
+                                        </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</openerp>

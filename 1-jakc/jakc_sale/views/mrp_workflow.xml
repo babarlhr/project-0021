@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Production -->
+        <record model="workflow.activity" id="prod_act_wc_request">
+            <field name="wkf_id" ref="mrp_operations.wkf_prod_workcenter"/>
+            <field name="name">requestforqc</field>
+            <field name="kind">function</field>
+            <field name="action">action_request_qc()</field>
+        </record>
+
+        <!-- Transision -->
+        <record model="workflow.transition" id="prod_trans_wc_request">
+            <field name="act_from" ref="mrp_operations.prod_act_wc_start"/>
+            <field name="act_to" ref="prod_act_wc_request"/>
+            <field name="signal">button_request_qc</field>
+        </record>
+
+        <record model="workflow.transition" id="prod_trans_wc_request_approve">
+            <field name="act_from" ref="prod_act_wc_request"/>
+            <field name="act_to" ref="mrp_operations.prod_act_wc_done"/>
+            <field name="signal">button_request_approve</field>
+        </record>
+
+        <record model="workflow.transition" id="prod_trans_wc_request_reject">
+            <field name="act_from" ref="prod_act_wc_request"/>
+            <field name="act_to" ref="mrp_operations.prod_act_wc_start"/>
+            <field name="signal">button_request_reject</field>
+        </record>
+
+
+    </data>
+</openerp>

@@ -11,7 +11,7 @@ class AccountVoucher(models.Model):
 
     printed_num = fields.Integer("Printed #", readonly=True)
     other_name = fields.Char("No Reference", readonly=True)
-    reference = fields.Char("Reference", size=10)
+    reference = fields.Char("Reference", size=200)
 
     @api.multi
     def voucher_print(self):

@@ -65,6 +65,7 @@
                            <field name="name"/>
                            <field name="date_start"/>
                            <field name="date_end"/>
+                           <field name="total_amount"/>
                        </group>
                        <notebook>
                            <page string="Workcenter Line">
@@ -75,6 +76,7 @@
                                         <field name="operator"/>
                                         <field name="workingdate"/>
                                         <field name="operator_fee"/>
+                                        <field name="paid_state"/>
                                     </tree>
                                </field>
                            </page>

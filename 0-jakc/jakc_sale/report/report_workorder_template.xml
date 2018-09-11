@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="workorderr_external_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="jakc_sale.workorderr_external_layout_header"/>
+            <t t-raw="0" />
+            <t t-call="jakc_sale.workorderr_external_layout_footer"/>
+        </template>
+
+        <template id="workorderr_external_layout_header">
+            <div class="header">
+                <div class="col-xs-3">
+                    <div class="row">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 60px;"/>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <div class="row">
+                        <h2>Detail Transaksi SPK</h2>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="workorderr_external_layout_footer">
+            <div class="footer">
+            </div>
+        </template>
+
+        <template id="report_workorderr">
+            <t t-call="report.html_container">
+                <t t-call="jakc_sale.workorderr_external_layout">
+                    <div class="page">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>No</td>
+                                <td>SPK #</td>
+                                <td>Polisi #</td>
+                                <td>Pemilik</td>
+                                <td>Panel #</td>
+                                <td>Total Jasa</td>
+                                <td>Total Sparepart</td>
+                                <td>OR</td>
+                                <td>Asuransi</td>
+                                <td>Surveyor</td>
+                                <td>Status</td>
+                                <td>Estimasi</td>
+                                <td>Material</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0"/>
+                            <t t-foreach="_get_sale_orders(data['form'])" t-as="order">
+                                <t t-set="no" t-value="no + 1"/>
+                                <tr>
+                                    <td><t t-esc="no"/></td>
+                                    <td><t t-esc="order.name"/></td>
+                                    <td><t t-esc="order.partner_vehicle_id.name"/></td>
+                                    <td><t t-esc="order.owner.name"/></td>
+                                    <td><t t-esc="order.production_count"/></td>
+                                    <td><t t-esc="order.sale_workorder_amount"/></td>
+                                    <td><t t-esc="order.sparepart_line_count"/></td>
+                                    <td><t t-esc="order.or_count * order.or_amount"/></td>
+                                    <td><t t-esc="order.insurance_company_id.name"/></td>
+                                    <td><t t-esc="order.surveyor.name"/></td>
+                                    <t t-if="order.state == 'sale'">
+                                        <td>Sale Order</td>
+                                    </t>
+                                    <td><t t-esc="order.estimate_finish_date"/></td>
+                                    <td><t t-esc="order.scheduled_product_amount"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                </t>
+
+            </t>
+        </template>
+
+        <menuitem id="menu_sale_workorders"
+                  name="Workorderr"
+                  parent="base.workshop_report_menu"
+                  action="act_report_workorders"
+                  sequence="3"/>
+
+    </data>
+</openerp>

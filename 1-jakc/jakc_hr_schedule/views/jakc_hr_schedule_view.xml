@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+         <!-- My Absence Menu -->
+        <menuitem name="My Absence" id="menu_my_absence" parent="hr.menu_hr_root" groups="base.group_user" sequence="1"/>
+
+         <!-- Top-level Menu -->
+        <menuitem name="Time and Attendance" id="menu_time_attendance" parent="hr.menu_hr_root" groups="base.group_hr_user" sequence="1"/>
+
+        <!-- Scheduling submenu -->
+        <menuitem name="Scheduling" id="menu_hr_root_schedule" parent="menu_time_attendance" groups="base.group_hr_user" sequence="1"/>
+
+        <!-- Scheduling configuration -->
+        <menuitem id="menu_hr_configure_schedule" parent="hr.menu_human_resources_configuration" name="Scheduling" groups="base.group_hr_manager" sequence="45"/>
+
+        <!-- Shift -->
+        <record id="view_hr_schedule_shift_tree" model="ir.ui.view">
+            <field name="name">hr.schedule.shift.tree</field>
+            <field name="model">hr.schedule.shift</field>
+            <field name="arch" type="xml">
+                <tree string="Shift">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="start_hours"  widget="float_time"/>
+                    <field name="end_hours"  widget="float_time"/>
+                    <field name="iface_next_day"/>
+                    <field name="iface_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_schedule_shift_form" model="ir.ui.view">
+            <field name="name">hr.schedule.shift.form</field>
+            <field name="model">hr.schedule.shift</field>
+            <field name="arch" type="xml">
+                <form string="Shift">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="start_hours"  widget="float_time"/>
+                            <field name="end_hours"  widget="float_time"/>
+                            <field name="iface_next_day"/>
+                            <field name="iface_active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_schedule_shift_view" model="ir.actions.act_window">
+            <field name="name">Shift</field>
+            <field name="res_model">hr.schedule.shift</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <menuitem action="open_schedule_shift_view"
+                  id="menu_schedule_shif_view"
+                  parent="menu_hr_root_schedule"
+                  sequence="10" groups="base.group_hr_user"/>
+
+        <!-- Schedules -->
+        <record id="view_hr_schedule_filter" model="ir.ui.view">
+            <field name="name">view_hr_schedule_filter</field>
+            <field name="model">hr.schedule</field>
+            <field name="arch" type="xml">
+                <search string="Work Week Schedule Search">
+                    <field name="name" string="Week Schedule"/>
+                    <field name="date_start"/>
+                    <filter icon="terp-go-today" string="Today" name="today" domain="[('date_start','&gt;=',current_date),('date_start','&lt;=',current_date)]" />
+                    <separator/>
+                    <filter icon="terp-stock_align_left_24" string="My Schedule" domain="[('employee_id.user_id.id', '=', uid)]" />
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="department" string="Department" icon="terp-personal" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="employee" string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Day" icon="terp-go-today" domain="[]" context="{'group_by':'date_start'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hr_schedule_tree" model="ir.ui.view">
+            <field name="name">hr.schedule.tree</field>
+            <field name="model">hr.schedule</field>
+            <field name="arch" type="xml">
+                <tree string="Schedules">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="department_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_schedule_form" model="ir.ui.view">
+            <field name="name">hr.schedule.form</field>
+            <field name="model">hr.schedule</field>
+            <field name="arch" type="xml">
+                <form string="Employee Schedule">
+                    <header>
+                        <button name="trans_validate" type="object" states="draft" class="oe_highlight" string="Validate"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="employee_id"/>
+                            <field name="template_id"/>
+                            <label for="date_start" string="Duration"/>
+                            <div>
+                                <field name="date_start" class="oe_inline" /> to
+                                <field name="date_end" class="oe_inline"/>
+                            </div>
+                            <field name="name"/>
+                            <field name="department_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <notebook>
+                            <page string="Working Days">
+                                <field name="detail_ids">
+                                    <tree string="Schedule Detail" editable="top"
+                                        colors="red:type=='off';green:type=='holiday';">
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="shift_id"/>
+                                        <field name="dayofweek"/>
+                                        <field name="day"/>
+                                        <field name="date_start" readonly="1"/>
+                                        <field name="date_end" readonly="1"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_schedule_view" model="ir.actions.act_window">
+            <field name="name">Schedules</field>
+            <field name="res_model">hr.schedule</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_hr_schedule_filter" />
+        </record>
+        <menuitem action="open_schedule_view"
+                  id="menu_schedule_view"
+                  parent="menu_hr_root_schedule"
+                  sequence="10" groups="base.group_hr_user"/>
+
+         <!-- Schedule Detail -->
+
+        <record id="view_hr_schedule_detail_filter" model="ir.ui.view">
+            <field name="name">view_hr_schedule_detail_filter</field>
+            <field name="model">hr.schedule.detail</field>
+            <field name="arch" type="xml">
+                <search string="Work Schedule Detail Search">
+                    <field name="name" string="Schedule"/>
+                    <field name="date_start"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="day"/>
+                    <filter icon="terp-go-today" string="Today" name="today" domain="[('date_start','&gt;=',current_date),('date_start','&lt;=',current_date)]" />
+                    <filter icon="terp-stock_align_left_24" string="My Schedule" domain="[('employee_id.user_id.id', '=', uid)]" />
+                    <group expand="0" string="Group By...">
+                        <filter name="department" string="Department" icon="terp-personal" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="employee" string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Day" icon="terp-go-today" domain="[]" context="{'group_by':'day'}"/>
+                        <filter name='state' string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_schedule_detail_tree" model="ir.ui.view">
+            <field name="name">hr.schedule.detail.tree</field>
+            <field name="model">hr.schedule.detail</field>
+            <field name="arch" type="xml">
+                <tree string="Schedule Detail" colors="red:type=='off';green:type=='holiday';">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="department_id"/>
+                    <field name="day"/>
+                    <field name="dayofweek"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="working_hours"/>
+                    <field name="state"/>
+                    <field name="employee_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_schedule_detail_form" model="ir.ui.view">
+            <field name="name">hr.schedule.detail.form</field>
+            <field name="model">hr.schedule.detail</field>
+            <field name="arch" type="xml">
+                <form string="Schedule Detail">
+                    <header>
+                        <button name="signal_validate" type="workflow" states="draft" class="oe_highlight" string="Validate"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group string="Schedule Information">
+                            <field name="schedule_id"/>
+                            <field name="name"/>
+                            <field name="type"/>
+                            <field name="dayofweek"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group string="Schedule Summary">
+                            <field name="actual_in"/>
+                            <field name="actual_out"/>
+                            <field name="working_hours_str"/>
+                            <field name="schedule_hours_str"/>
+                            <field name="diff_hours_str"/>
+                            <field name="hours_before_in_str"/>
+                            <field name="hours_after_out_str"/>
+                        </group>
+                        <group string="Exception">
+                            <field name="exception_ids" nolabel="1">
+                                <tree>
+                                    <field name="exception_code"/>
+                                    <field name="exception_request_date"/>
+                                    <field name="approved_datetime"/>
+                                    <field name="approved_by"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Absence">
+                            <field name="absence_ids" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="trans_date_time"/>
+                                    <field name="machine_id"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_schedule_detail_calendar" model="ir.ui.view">
+            <field name="name">hr.schedule.detail.calendar</field>
+            <field name="model">hr.schedule.detail</field>
+            <field name="arch" type="xml">
+                <calendar color="schedule_id" date_start="date_start" date_stop="date_end" string="Employee Schedule">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="open_schedule_detail_view" model="ir.actions.act_window">
+            <field name="name">Schedule Details</field>
+            <field name="res_model">hr.schedule.detail</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="search_view_id" ref="view_hr_schedule_detail_filter" />
+        </record>
+
+        <menuitem action="open_schedule_detail_view"
+                  id="menu_schedule_detail_view"
+                  parent="menu_hr_root_schedule"
+                  sequence="15"
+                  groups="base.group_hr_user"
+        />
+
+        <!-- Schedules Detail Exception -->
+
+        <record id="view_hr_schedule_detail_exception_filter" model="ir.ui.view">
+            <field name="name">view.hr.schedule.detail.exception.filter</field>
+            <field name="model">hr.schedule.detail</field>
+            <field name="arch" type="xml">
+                <search string="Work Schedule Detail Exception Search">
+                    <field name="employee_id"/>
+                    <field name="day"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="employee" string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Day" icon="terp-go-today" domain="[]" context="{'group_by':'day'}"/>
+                        <filter name='state' string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+         <record id="view_schedule_detail_exception_tree" model="ir.ui.view">
+            <field name="name">hr.schedule.detail.exception.tree</field>
+            <field name="model">hr.schedule.detail.exception</field>
+            <field name="arch" type="xml">
+                <tree string="Schedule Detail Exception">
+                    <field name="schedule_detail_id"/>
+                    <field name="employee_id"/>
+                    <field name="day"/>
+                    <field name="exception_code"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_schedule_detail_exception_form" model="ir.ui.view">
+            <field name="name">hr.schedule.detail.exception.form</field>
+            <field name="model">hr.schedule.detail.exception</field>
+            <field name="arch" type="xml">
+                <form string="Employee Schedule Detail Exception">
+                    <header>
+                        <button type="action"
+                                name="%(action_process_exception)d"
+                                string="Exception"
+                                states='open'
+                                class="oe_highlight"
+                                help="Confirm Exception"/>
+                        <button type="action"
+                                name="%(action_process_exception_approved)d"
+                                string="Approved/Rejected"
+                                states='request'
+                                class="oe_highlight"
+                                groups="base.group_hr_user"
+                                help="Confirm Exception"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="schedule_detail_id"/>
+                            <field name="employee_id"/>
+                            <field name="exception_code"/>
+                            <field name="exception_request_date"/>
+                            <field name="exception_reason"/>
+                            <field name="exception_description"/>
+                            <field name="approved_datetime"/>
+                            <field name="approved_state"/>
+                            <field name="approved_by"/>
+                            <field name="approved_reason" attrs="{'invisibile':[('approved_state','=','reject')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_schedule_detail_exception_view" model="ir.actions.act_window">
+            <field name="name">Exception</field>
+            <field name="res_model">hr.schedule.detail.exception</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_hr_schedule_detail_exception_filter" />
+        </record>
+
+        <menuitem action="open_schedule_detail_exception_view"
+                  id="menu_schedule_detail_exception_view"
+                  parent="menu_hr_root_schedule"
+                  sequence="15"
+                  string = "Exception"
+                  groups="base.group_hr_user"
+        />
+
+         <!-- Schedule Holiday -->
+
+        <record id="view_hr_schedule_holiday_tree" model="ir.ui.view">
+            <field name="name">hr.schedule.holiday.tree</field>
+            <field name="model">hr.schedule.holiday</field>
+            <field name="arch" type="xml">
+                <tree string="Schedule Holiday">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_schedule_holiday_form" model="ir.ui.view">
+            <field name="name">hr.schedule.holiday.form</field>
+            <field name="model">hr.schedule.holiday</field>
+            <field name="arch" type="xml">
+                <form string="Schedule Holiday">
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_schedule_holiday_view" model="ir.actions.act_window">
+            <field name="name">Schedule Holiday</field>
+            <field name="res_model">hr.schedule.holiday</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+        <menuitem action="open_schedule_holiday_view"
+                  id="menu_schedule_holiday_view"
+                  parent="menu_hr_root_schedule"
+                  sequence="12"/>
+
+
+        <!-- My Absence View -->
+        <record id="my_view_hr_schedule_detail_filter" model="ir.ui.view">
+            <field name="name">my_view_hr_schedule_detail_filter</field>
+            <field name="model">hr.schedule.detail</field>
+            <field name="arch" type="xml">
+                <search string="Work Schedule Detail Search">
+                    <field name="name" string="Schedule"/>
+                    <field name="date_start"/>
+                    <filter icon="terp-go-today" string="Today" name="today" domain="[('date_start','&gt;=',current_date),('date_start','&lt;=',current_date)]" />
+                    <separator/>
+                    <filter icon="terp-stock_align_left_24" string="My Schedule" domain="[('employee_id.user_id.id', '=', uid)]" />
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="day"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="department" string="Department" icon="terp-personal" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="employee" string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Day" icon="terp-go-today" domain="[]" context="{'group_by':'day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="my_open_schedule_detail_view" model="ir.actions.act_window">
+            <field name="name">Schedule Details</field>
+            <field name="res_model">hr.schedule.detail</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('employee_id.user_id.id','=', uid)]</field>
+            <field name="search_view_id" ref="my_view_hr_schedule_detail_filter" />
+        </record>
+
+        <menuitem action="my_open_schedule_detail_view"
+                  id="menu_my_schedule_detail_view"
+                  parent="menu_my_absence"
+                  sequence="1"
+                  groups="base.group_user"/>
+
+        <record id="my_open_schedule_detail_exception_view" model="ir.actions.act_window">
+            <field name="name">Exception</field>
+            <field name="res_model">hr.schedule.detail.exception</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('schedule_detail_id.employee_id.user_id.id','=',uid)]</field>
+        </record>
+
+        <menuitem action="my_open_schedule_detail_exception_view"
+                  id="my_menu_schedule_detail_exception_view"
+                  parent="menu_my_absence"
+                  sequence="2"
+                  string = "Exception"
+                  groups="base.group_user"
+        />
+
+    </data>
+
+</openerp>

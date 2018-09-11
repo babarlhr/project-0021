@@ -16,8 +16,12 @@ class ResCompany(models.Model):
     iface_auto_reserve = fields.Boolean('Auto Reserve', default=False)
     add_material_authorized = fields.Many2one('hr.employee', 'Add Material Authorized')
 
+    warehouse_id = fields.Many2one('stock.warehouse','Warehouse')
     location_id = fields.Many2one('stock.location','Source Location')
     location_dest_id = fields.Many2one('stock.location', 'Destination Location')
     move_type = fields.Selection([('direct','Partial'),('one',' All at once')], 'Delivery Method')
     picking_type_id = fields.Many2one('stock.picking.type','Picking Type')
     priority = fields.Selection([('0','Not Urgent'),('1','Normal'),('2','Urgent'),('3','Very Urget')], 'Priority')
+
+    insurance_incoming_picking_type_id = fields.Many2one('stock.picking.type','Insurance Incoming Picking Type')
+    insurance_outgoing_picking_type_id = fields.Many2one('stock.picking.type','Insurance Outgoing Picking Type')

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_report_workorders" model="ir.ui.view">
+            <field name="name">Wizard Sale Workorders</field>
+            <field name="model">wizard.report.workorders</field>
+            <field name="arch" type="xml">
+                <form string="Sale Workorders">
+                    <group string="Dates">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="iface_summary"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" type="object" string="Print Report" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_report_workorders" model="ir.actions.act_window">
+            <field name="name">Workorders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.report.workorders</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_sale_workorders"
+                  name="Work Order"
+                  parent="base.workshop_report_menu"
+                  action="act_report_workorders"
+                  sequence="3"/>
+
+    </data>
+</openerp>

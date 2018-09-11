@@ -2,8 +2,12 @@ import add_operator
 import consume_material
 import add_image
 import add_material
+import add_order_line
 import return_material
+import process_sparepart
 import process_operator_fee
 import report_operator_fee
+import report_consume_material
+import report_sale_workorder
 import sale_make_invoice_advance
 import stock_move

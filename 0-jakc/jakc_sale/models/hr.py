@@ -40,12 +40,19 @@ class HrEmployeePeriodeFee(models.Model):
             vals.update({'fee_amount': fee_amount})
             vals.update({'state': 'done'})
             wc_line_operator.write(vals)
+    @api.one
+    def _calculate_total_amount(self):
+        total_amount = 0
+        for line in self.workcenter_line_ids:
+            total_amount += line.fee_amount
+
+        self.total_amount = total_amount
 
     name = fields.Char('Name', readonly=True)
     date_start = fields.Date("Start Date", required=True)
     date_end = fields.Date("End Date", required=True)
     number_of_employee = fields.Date("Number of Employee", readonly=True)
-    total_amount = fields.Float("Total Amount", readonly=True)
+    total_amount = fields.Float(compute="_calculate_total_amount", string="Total Amount", readonly=True)
     state = fields.Selection([('open', 'Open'), ('done', 'Close')], 'Status', readonly=True)
     workcenter_line_ids = fields.One2many('mrp.production.workcenter.line.operator', 'periode_fee_id', 'Workcenters')
 

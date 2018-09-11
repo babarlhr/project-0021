@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <template id="or_downpayment_report_layout">
+            <t t-raw="0" />
+         </template>
+
+        <template id="report_account_invoice_or_downpayment_document">
+            <t t-call="jakc_sale.or_downpayment_report_layout">
+                <!--<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />-->
+                <div class="page" style="font-size: 18pt;font-family:Tahoma,Arial,Verdana,Calibri,sans,Lucida Grande;">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-6">
+
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <center>SURAT KELUAR KENDARAAN</center>
+                                <hr/>
+                                <center>ANDARU MOTOR</center>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <center><span><h3>KENDARAAN INI DIIJINKAN UNTUK KELUAR AREA BENGKEL</h3></span></center>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>NO POLISI</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span t-esc="o.partner_vehicle_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>MERK/JENIS KENDARAAN</span>
+                                </div>
+                                <div class="col-xs-6">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>TGL BAYAR OR</span>
+                                </div>
+                                <div class="col-xs-6">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <span class="glyphicon glyphicon-unchecked"></span>SELESAI PERBAIKAN
+                        </div>
+                        <div class="col-xs-4">
+                            <span class="glyphicon glyphicon-unchecked"></span>RAWAT JALAN
+                        </div>
+                        <div class="col-xs-4">
+                            <span class="glyphicon glyphicon-unchecked"></span>LAIN - LAIN
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div clas="row">
+                                <div class="col-xs-6">
+                                    <span>DICETAK OLEH</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div clas="row">
+                                <div class="col-xs-6">
+                                    <span>KETERANGAN</span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <center><span>SERAHKAN SURAT INI KEPADA PETUGAS KEAMANAN SAAT KELUAR</span></center>
+                    </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="report_accountinvoice_or_downpayment">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="jakc_sale.report_account_invoice_or_downpayment_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+
+
+    </data>
+</openerp>

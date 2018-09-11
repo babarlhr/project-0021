@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+
+        <record id="open_resource_calendar_view" model="ir.actions.act_window">
+            <field name="name">Schedule Template</field>
+            <field name="res_model">resource.calendar</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="open_resource_calendar_view"
+                  id="menu_resource_calendar_view"
+                  parent="menu_hr_root_schedule"
+                  sequence="10" groups="base.group_hr_user"/>
+
+        <record id="view_hr_schedule_resouce_calendar_attendance_inherit_tree" model="ir.ui.view">
+            <field name="name">hr.schedule.resource.calendar.attendance.inherit.tree</field>
+            <field name="model">resource.calendar.attendance</field>
+            <field name="inherit_id" ref="resource.view_resource_calendar_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="type"/>
+                    <field name="shift"/>
+                </xpath>
+                <xpath expr="//field[@name='hour_from']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='hour_to']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</openerp>

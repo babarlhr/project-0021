@@ -1,0 +1,74 @@
+SPK (Module -> jakc_sale)
+
+1. Register SPK (Umum atau Asuransi)  -> Done
+2. Panel, Sparepart dan Insurance Sparepart -> Done
+3. Panel merupakan BOM -> Done
+4. Panel menghasilkan Manufacture Order -> Done
+5. Manufacture Order menghasilkan Wordorder / Workcenter -> Done
+6. Panel bisa dilakukan process cancel (syarat belum ada pengerjaan terhadap panel) -> Done (merubah quantity dengan 0)
+7. Sparepart bisa dicancel (syarat belum diambil dari gudang) -> Done
+8. SPK bisa dicancel ( syarat panel belum dikerjakan dan sparepart belum diambil) -> Done
+
+Pembayaran SPK (Module -> jakc_sale)
+
+1. Pembayaran OR (seperti pembayaran DP / Deposit) -> Done
+2. Pembayaran OR diset jumlah dan harganya -> Done
+3. Sisa pembayaran bisa akan ditagihkan ke asuransi -> Done
+
+Penambahan Sparepart (Module -> jakc_sale)
+
+1. Pada order line tambahkan sparepart yang dibutuhkan
+2. Setelah confirm order line maka pada stock picking akan ditambahkan sparepart sebagai stock move baru
+
+Penambahan Sparepart Asuransi (Module -> jakc_sale)
+
+1. Transaksi ini hanya bisa dilakukan jika workorder datang dari claim asuransi
+2. Pada bagian order akan muncul line sparepart asuransi
+3. Pada line sparepart asuransi tambahkan sparepartkan yang dibutuhkan
+4. Setelah confirm line sparepart asuransi maka akan muncul 2 stock picking (dari asuransi ke stok -> stock ke production)
+
+Pengambilan Sparepart Asuransi (Module -> jakc_sale)
+
+1. Ketika melakukan penambahan sparepart asuransi, stock picking penerimaan barang harus dibuat terlebih dahulu dimana
+   stock picking ini merupakan perpindahan dari Vendor ke Gudang Asuransi dan Dari Gudang Asuransi ke Production (Virtual Location)
+2. Staff Gudang akan menerima barang dari asuransi kemudian melakukan validasi sehingga sparepart akan pindah ke Gudang Andaru.
+3. Akan muncul informasi bahwa barang ready pada kanban dan dapat diambil oleh mekanik
+4. Barang akan diambil oleh mekanik menggunakan Stock picking Gudang Asuransi ke Production (Virtual Location)
+3. Akan muncul informasi bahwa sparepart insurance sudah diambil oleh mekanik pada kanban
+
+Pengambilan Sparepart (Module -> jakc_sale)
+
+1. Penambahan Sparepart dilakukan dengan menambahkan order line -> Done
+2. Sparepart akan ditambahkan pada exisiting delivery (Stock to Customer) -> Done
+3. Pengambilan barang oleh mekanik dapat dilakukan menggunakan stock picking atau langsung dari tampilan SPK -> Done
+
+Pengambilan Bahan Baku (Module -> jakc_sale)
+
+1. Bahan baku akan diambil dari Gudang Bahan Baku dan dipindahkan ke Gudang Produksi (Virtual Location) secara otomatis ketika
+   manufacture order tercreate -> Done
+2. Pengambilan bahan baku dilakukan langsung dari tampilan SPK -> Done
+3. Pengambilan bahan baku harus menentukan mekanik yang mengambil bahan baku. -> Done
+
+
+Pembatalan Panel (Module -> jakc_sale)
+
+1. Dilakukan menggunakan order line dengna merubah quantity panel menjadi 0 -> Done
+2. Pembatalan panel kan membatalkan manufacturing order -> Done
+3. Pembatanan manufacturing order akan membatalkan workorder/workcenter -> Done
+4. Pembatalan panel harus mengecek workcenter dan pengambilan barang sehingga tidak ada barang atau mekanik yang harus dibayarkan
+   untuk panel ini
+
+Pembatalan Sparepart Asuransi (Module -> jakc_sale)
+1. Dilakukan dengna melakukan
+
+
+Pembatalan Sparepart (Module -> jakc_sale)
+
+1. Dilakukan menggunakan order line dengan merubah quantity panel menjadi 0 -> Done
+2. Pembatalan sparepart harus mengecek stock move jika stock move belum terjadi , maka stock move langsung dibatalkan
+3. Jika sudah terjadi stock move maka dibuat process refund untuk pengembalian sparepert tersebut
+
+
+Discount
+
+1. Setup discount per order line

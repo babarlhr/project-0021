@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="wizard_add_order_line_form_view" model="ir.ui.view">
+            <field name="name">wizard.add.order.line.form</field>
+            <field name="model">wizard.add.order.line</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Order Line">
+                    <group>
+                        <field name="sale_order_id"/>
+                        <field name="product_id"/>
+                        <field name="product_uom_qty"/>
+                        <field name="product_uom"/>
+                    </group>
+                     <footer>
+                        <button name="add_order_line" type="object" string="Save" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="act_add_order_line" model="ir.actions.act_window">
+            <field name="name">Add Order Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.add.order.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_add_order_line_form_view"/>
+        </record>
+
+    </data>
+</odoo>

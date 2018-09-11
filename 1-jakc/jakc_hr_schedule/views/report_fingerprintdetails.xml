@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_fingerprintdetails">
+            <t t-call="report.html_container">
+                <t t-foreach="data['form']['employee_ids']" t-as="employee_id">
+                    <t t-call="report.internal_layout">
+                        <div class="page">
+                            <h2>Fingerprint Details</h2>
+                            <div class="row">
+                                <h1><span t-esc="get_employee_name(employee_id)"/></h1>
+                            </div>
+                             <div class="row">
+                                Start Date : <span t-esc="formatLang(data['form']['date_start'],date=True)"/>
+                            </div>
+                            <div class="row">
+                                End Date : <span t-esc="formatLang(data['form']['date_end'],date=True)"/>
+                            </div>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="get_fingerprint_detail(employee_id,data['form']['date_start'],data['form']['date_end'])" t-as="detail">
+                                    <tr>
+                                        <td><span t-esc="formatLang(detail['trans_date_time'], date_time=True)"/></td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <menuitem action="action_report_fingerprint_details" name="Employee Fingerprint" id="menu_hr_fingerprint_report" parent="menu_hr_root_report" groups="base.group_hr_user" sequence="1"/>
+
+
+    </data>
+</openerp>

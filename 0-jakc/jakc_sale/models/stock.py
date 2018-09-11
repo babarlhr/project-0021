@@ -10,11 +10,22 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    sparepart_id = fields.Many2one('sale.order.sparepart','Sparepart #')
+    sparepart_line_id = fields.Many2one('sale.order.sparepart.line', 'Sparepar Line #')
+    mechanic_id = fields.Many2one('hr.employee','Mechanic')
+
+
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
     sale_order_id = fields.Many2one(comodel_name='sale.order', string='Order #', store=True, related='production_id.sale_order_id')
-    sale_order_id = fields.Many2one('saler.order','Sale Order #')
+    #sale_order_id = fields.Many2one('saler.order','Sale Order #')
+    sparepart_line_id = fields.Many2one('sale.order.sparepart.line', 'Sparepar Line #', index=True)
+    #sparepart_flow_type = fields.Selection([('in','Incoming'),('out','Outgoing')],'Flow Type', index=True)
+    pickup_by = fields.Many2one('hr.employee', 'Mechanic', index=True)
 
     @api.multi
     def move_consume_2(self):

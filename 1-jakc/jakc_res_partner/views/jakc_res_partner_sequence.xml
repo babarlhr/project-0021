@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences for workorder -->
+
+        <record id="seq_res_partner" model="ir.sequence">
+            <field name="name">Customer Workshop</field>
+            <field name="code">customerworkshop</field>
+            <field name="prefix">WOC</field>
+            <field name="padding">7</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+
+
+    </data>
+</openerp>

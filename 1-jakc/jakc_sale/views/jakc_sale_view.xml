@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="sale_order_workshop_kanban" model="ir.ui.view">
+             <field name="name">sale.order.workshop.kanban</field>
+             <field name="model">sale.order</field>
+             <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
+             <field name="arch" type="xml">
+                 <xpath expr="//kanban/templates/t/div/div[2]" position="after">
+                     <t t-if="record.iface_workorder == True">
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Plat Number :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="partner_vehicle_id"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Owner :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="owner"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Estimated Date :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="estimate_finish_date" widget="date"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Vehicle Type :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                <span><field name="car_type_str"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Vehicle Status :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                <span><field name="car_status_str"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Remark :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                <span><field name="car_remark_str"/></span>
+                             </div>
+                         </div>
+                        <div class="row">
+                             <div class="col-xs-6">
+                                <span>Actual In :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="car_actual_in" widget="datetime"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Actual Out :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="car_actual_out" widget="datetime"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Progress :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="production_progress"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                                 <div class="col-xs-6">
+
+                                 </div>
+                                 <div class="col-xs-6">
+
+                                 </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Spare Part :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="sparepart_line_available_count"/> of <field name="sparepart_line_count"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Spare Part Usage:</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="sparepart_line_done_count"/> of <field name="sparepart_line_available_count"/></span>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-xs-6">
+                                <span>Last Job :</span>
+                             </div>
+                             <div class="col-xs-6">
+                                 <span><field name="last_workcenter_line"/></span>
+                             </div>
+                         </div>
+                     </t>
+                 </xpath>
+             </field>
+         </record>
+
+        <record model="ir.ui.view" id="jakc_project_0021_sale_order_form_inherit_view">
+            <field name="name">jakc.project.0021.sale.order.form.inherit.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_cancel']">
+                    <button name="trans_print_spk" string="Print SPK" type="object" attrs="{'invisible': [('iface_workorder','=',False)]}" class="oe_highlight"/>
+                    <button name="trans_print_spb" string="Print SPB" type="object" attrs="{'invisible': [('iface_workorder','=',False)]}" class="oe_highlight"/>
+                </xpath>
+                <field name="partner_id" position="before">
+                    <field name="iface_workorder" attrs="{'invisible':True}"/>
+                    <field name="partner_vehicle_id" attrs="{'invisible': [('iface_workorder','=',False)],'required': [('iface_workorder','=',True)]}"/>
+                </field>
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" attrs="{'readonly':[('iface_workorder','=',True)]}" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="owner" attrs="{'invisible':[('iface_workorder','=',False)]}"/>
+                    <field name="iface_insurance" attrs="{'invisible':[('iface_workorder','=',False)]}"/>
+                    <field name="paint_category_id" attrs="{'invisible':[('iface_workorder','=',False)]}"/>
+                </field>
+                <field name="name" position="after">
+                    <field name="sale_order_percentage"/>
+                </field>
+                <field name="validity_date" position="before">
+                    <field name="last_spk" domain="[('partner_vehicle_id', '=', partner_vehicle_id)]" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
+                    <field name="estimate_finish_date" attrs="{'invisible': [('iface_workorder','=',False)],'required': [('iface_workorder','=',True)]}"/>
+                    <field name="surveyor" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
+                    <field name="driver_in" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
+                    <field name="driver_out" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
+                    <field name="distance" attrs="{'invisible': [('iface_workorder','=',False)]}"/>
+                </field>
+                <field name="payment_term_id" position="after">
+                    <field name="printed_num"/>
+                    <field name="scheduled_product_amount"/>
+                    <field name="scheduled_product_percentage"/>
+                </field>
+                <xpath expr="//field[@name='order_line']" position="before">
+                    <br/>
+                    <button name="%(jakc_sale.act_add_order_line)d" string="Order Sparepart" type="action" attrs="{'invisible': [('iface_workorder','=',False)]}" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="iface_sparepart"/>
+                </xpath>
+                <xpath expr="//notebook/page[1]/field[@name='order_line']" position="after">
+                    <field name="sparepart_line_ids"  attrs="{'invisible': [('iface_insurance','=',False)]}">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="expected_date"/>
+                        </tree>
+                    </field>
+                </xpath>
+
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Insurance" attrs="{'invisible':[('iface_insurance','=',False)]}">
+                        <group>
+                            <field name="insurance_company_id" attrs="{'required':[('iface_insurance','=',True)],'readonly':[('state','not in',['draft','sent'])]}"/>
+                            <field name="insurance_number" attrs="{'required':[('iface_insurance','=',True)]}"/>
+                            <field name="claim_number" attrs="{'required':[('iface_insurance','=',True)]}"/>
+                            <field name="claim_date" attrs="{'required':[('iface_insurance','=',True)]}"/>
+                            <field name="damage_type" attrs="{'required':[('iface_insurance','=',True)]}"/>
+                            <field name="or_count" attrs="{'required':[('iface_insurance','=',True)]}"/>
+                            <field name="or_amount" attrs="{'required':[('iface_insurance','=',True)]}"/>
+                            <field name="or_paid_status"/>
+                            <field name="or_invoice"/>
+                        </group>
+                    </page>
+                    <page string="Images" attrs="{'invisible': [('iface_workorder','=',False)]}">
+                        <group>
+                            <notebook>
+                                <page string="Before">
+                                    <field name="attachment_ids"  mode="kanban">
+                                        <kanban>
+                                            <field name="image_medium"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="row oe_kanban_global_click">
+                                                        <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" t-att-src="'data:image/png;base64,'+record.image_medium.raw_value"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
+                                </page>
+                                <page string="In Progress">
+                                     <field name="before_ids"  mode="kanban">
+                                        <kanban>
+                                            <field name="image_small"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="oe_kanban_global_click">
+                                                        <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                                        <div class="o_kanban_image">
+                                                            <img t-att-src="kanban_image('sale.order.before.image', 'image_small', record.image_small.value)" class="oe_kanban_picture" style="max-height: 90px; max-width: 60px;"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
+                                </page>
+                                <page string="After">
+                                     <field name="after_ids"  mode="kanban">
+                                        <kanban>
+                                            <field name="image_medium"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="row oe_kanban_global_click">
+                                                        <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" t-att-src="'data:image/png;base64,'+record.image_medium.raw_value"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
+                                </page>
+                                <page string="Salvage">
+                                     <field name="salvage_ids"  mode="kanban">
+                                        <kanban>
+                                            <field name="image_medium"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-attf-class="row oe_kanban_global_click">
+                                                        <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" t-att-src="'data:image/png;base64,'+record.image_medium.raw_value"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+
+                    </page>
+                    <page string="Production" attrs="{'invisible': [('iface_workorder','=',False)]}">
+                        <br/>
+                        <button name="trans_check_material" string="Check Material" type="object" class="oe_highlight"/>
+                        <br/>
+                        <field name="production_ids" readonly="1" create="false">
+                            <tree string="Productions" colors="blue:state=='done';green:state=='ready';red:state=='in_production';">
+                                <field name="name"/>
+                                <field name="product_id"/>
+                                <field name="routing_wc_line_percentage" widget="progressbar"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Work Center" attrs="{'invisible': [('iface_workorder','=',False)]}" >
+                        <br/>
+                        <button  name="trans_refresh_workcenter_tree" string="Refresh" type="object" class="oe_highlight"/>
+                        <field name="workcenter_line_ids" options="{'reload_on_button': true}" readonly="1" create="false">
+                            <tree string="Work Center" colors="blue:state=='done';green:state=='startworking';red:state=='request';" default_order='name' delete="false">
+                                <field name="production_id"/>
+                                <field name="name"/>
+                                <field name="list_operator"/>
+                                <field nane="production_state"/>
+                                <field name="state"/>
+                                <button name="trans_start_working"
+                                        string="Start"
+                                        icon="fa-play-circle"
+                                        states="draft"
+                                        type="object"
+                                />
+                                <button name="trans_request_qc"
+                                        string="Request for QC"
+                                        icon="fa-external-link"
+                                        states="startworking"
+                                        type="object"
+                                />
+                                <button name="%(jakc_sale.act_approve_workcenter_line)d"
+                                        string="Approve"
+                                        icon="fa-check-circle-o"
+                                        states="request"
+                                        type="action"
+                                />
+                                <button name="trans_request_reject"
+                                        string="Reject"
+                                        icon="fa-minus-circle"
+                                        states="request"
+                                        type="object"
+                                />
+                                <button name="%(jakc_sale.act_add_operator_main)d"
+                                        string="Add Operators"
+                                        icon="fa-users"
+                                        type="action"
+                                        states="draft,pause,startworking,request,done"
+                                />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Sparepart" attrs="{'invisible': [('iface_workorder','=',False)]}" >
+                        <br/>
+                        <button name="trans_sparepart" string="Check Sparepart" type="object" class="oe_highlight"/>
+                        <br/>
+                        <field name="sparepart_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom"/>
+                                <field name="type"/>
+                                <field name="sparepart_flow"/>
+                                <field name="employee_id"/>
+                                <field name="product_qty_available"/>
+                                <field name="qty_done"/>
+                                <field name="stock_move_id"/>
+                                <button name="%(jakc_sale.act_insurance_sparepart_received)d"
+                                        string="Insurance Sparepart Received"
+                                        type="action"
+                                        icon="fa-car"
+                                        attrs="{'invisible':['|',('type','!=','insurance'),('stock_move_state','!=', 'confirmed')]}"
+                                />
+                                <button name="trans_print_insurance_receive"
+                                        string="Print Receive Sparepart"
+                                        type="object"
+                                        icon="fa-print"
+                                        attrs="{'invisible':['|',('type','!=','insurance'),('stock_move_state','!=', 'done')]}">
+                                </button>
+                                <field name="stock_move_state" invisible="1"/>
+
+                                <field name="production_stock_move_id"/>
+                                <button name="%(jakc_sale.act_insurance_sparepart_production)d"
+                                        string="Send to Production"
+                                        type="action"
+                                        icon="fa-car"
+                                        attrs="{'invisible':[('production_stock_move_state','!=', 'assigned')]}"
+                                />
+                                <field name="production_stock_move_state" invisible="1"/>
+
+                                <field name="state"/>
+                                <button name="%(jakc_sale.act_return_sparepart)d"
+                                        string="Return Sparepart"
+                                        type="action"
+                                        icon="fa-arrow-left"
+                                        attrs="{'invisible':[('state','!=', 'done')]}"
+                                />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Material"  attrs="{'invisible': [('iface_workorder','=',False)]}">
+                        <br/>
+                        <button name="trans_merge_stock_move" string="Calculate Material" type="object" class="oe_highlight"/>
+                        <button name="%(jakc_sale.act_add_other_material)d" string="Add Other Material" type="action" class="oe_highlight"/>
+                        <br/>
+                        <h1>Material</h1>
+                        <field name="consume_material_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="employee_id"/>
+                                <field name="quantity"/>
+                                <field name="quantity_usage"/>
+                                <field name="quantity_done"/>
+                                <field name="quantity_add"/>
+                                <field name="quantity_return"/>
+                                <button name="%(jakc_sale.act_consume_material)d"
+                                        string="Consume Material"
+                                        type="action"
+                                        icon="fa-shopping-cart"
+                                />
+                                <button name="%(jakc_sale.act_add_material)d"
+                                        string="Add Material"
+                                        type="action"
+                                        icon="fa-plus-square"
+                                />
+                                <button name="%(jakc_sale.act_cancel_material)d"
+                                        string="Adjust Material"
+                                        type="action"
+                                        icon="fa-arrow-down"
+                                />
+                                <button name="%(jakc_sale.act_return_material)d"
+                                        string="Return Material"
+                                        type="action"
+                                        icon="fa-arrow-left"
+                                />
+                            </tree>
+                        </field>
+                        <br/>
+                        <h1>Additional Material</h1>
+                        <field name="add_material_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="trans_date"/>
+                                <field name="product_id"/>
+                                <field name="employee_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom"/>
+                                <field name="stock_move_id"/>
+                                <field name="approved_by"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                        <br/>
+                        <h1>Return Material</h1>
+                        <field name="return_material_ids" readonly="1" create="false">
+                            <tree>
+                                <field name="trans_date"/>
+                                <field name="product_id"/>
+                                <field name="employee_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom"/>
+                                <field name="stock_move_id"/>
+                            </tree>
+                        </field>
+
+                    </page>
+                    <page string="Status Fisik" attrs="{'invisible': [('iface_workorder','=',False)]}">
+                        <field name="car_status_ids">
+                            <tree string="Car Status" editable="bottom">
+                                <field name="trans_date_time"/>
+                                <field name="flow_type"/>
+                                <field name="flow_status" attrs="{'invisible':[('flow_type','=', 'in')],'required':[('flow_type','=','out')]}"/>
+                                <field name="print_number"/>
+                                <field name="remark"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="jakc_project_0021_sale_order_tree_inherit_view">
+            <field name="name">jakc.project.0021.sale.order.tree.inherit.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="partner_vehicle_id" invisible="context.get('iface_workorder') != True"/>
+                </field>
+                <field name="amount_total" position="after">
+                    <field name="sale_order_percentage" widget="progressbar" invisible="context.get('iface_workorder') != True"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="jakc_project_0021_sale_order_filter_inherit_view">
+            <field name="name">jakc.project.0021.sale.order.filter.inherit.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="partner_vehicle_id" invisible="context.get('iface_workorder') != True"/>
+                    <field name="last_workcenter_line" invisible="context.get('iface_workorder') != True"/>
+                </field>
+            </field>
+        </record>
+
+        <!--Inherit quotations search view-->
+        <record id="view_sale_order_inherit_filter" model="ir.ui.view">
+            <field name="name">sale.order.inherit.filter</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/group[1]" position="inside">
+                    <filter string="Vehicle Type" domain="[]" context="{'group_by':'car_type_str'}"/>
+                    <filter string="Car Status" domain="[]" context="{'group_by':'car_status_str'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_workorders" model="ir.actions.act_window">
+            <field name="name">Work Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{'show_sale': True,'default_iface_workorder': True,'iface_workorder': True}</field>
+            <field name="domain">[('iface_workorder','=', True),('state', 'not in', ('sent', 'cancel'))]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a Quotation, the first step of a new sale.
+                </p><p>
+                    Your next actions should flow efficiently: confirm the Quotation to a Sale Order, then create the Invoice and collect the Payment.
+                </p><p>
+                    Note that once a Quotation becomes a Sale Order, it will be moved from the Quotations list to the Sales Order list.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="action_workorders"
+            id="menu_workshop_order" parent="base.workshop_workorder_menu"
+            sequence="12" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <!-- WORKSHOP/SALE ORDER SPAREPART-->
+        <record model="ir.ui.view" id="sale_order_sparepart_form">
+            <field name="name">sale.order.sparepart.form</field>
+            <field name="model">sale.order.sparepart</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sale Order Sparepart">
+                    <header>
+                        <button name="trans_received" string="Received"/>
+                        <button name="trans_claim" string="Claimed"/>
+                        <button name="trans_return" string="Return"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="back_order_id"/>
+                            <field name="product_id"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="employee_id"/>
+                            <field name="type"/>
+                            <field name="order_line_id"/>
+                            <field name="sparepart_line_id"/>
+                            <field name="product_qty"/>
+                            <field name="product_qty_available"/>
+                            <field name="qty_done"/>
+                            <field name="stock_move_id"/>
+                            <field name="production_stock_move_id"/>
+                            <field name="state"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/SALE ORDER SPAREPART LINE-->
+        <record model="ir.ui.view" id="sale_order_sparepart_line_form">
+            <field name="name">Sale Order Sparepart Line</field>
+            <field name="model">sale.order.sparepart.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="product_uom_qty"/>
+                        <field name="product_uom"/>
+                        <field name="expected_date"/>
+                        <field name="stock_move_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/SALE ORDER BEFORE IMAGE-->
+        <record model="ir.ui.view" id="view_sale_order_image _form">
+            <field name="name">sale.order.image.form</field>
+            <field name="model">sale.order.image</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="attachment" widget="image"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/SALE ORDER BEFORE IMAGE-->
+        <record model="ir.ui.view" id="view_sale_order_before_image_form">
+            <field name="name">sale.order.image.before.form</field>
+            <field name="model">sale.order.before.image</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="attachment" widget="image"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/SALE ORDER BEFORE IMAGE-->
+        <record model="ir.ui.view" id="view_sale_order_after_image_form">
+            <field name="name">sale.order.image.after.form</field>
+            <field name="model">sale.order.after.image</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="attachment" widget="image"/>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- WORKSHOP/SALE ORDER BEFORE IMAGE-->
+        <record model="ir.ui.view" id="view_sale_order_salvage_image_form">
+            <field name="name">sale.order.salvage.image.form</field>
+            <field name="model">sale.order.salvage.image</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="attachment" widget="image"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/SALE ORDER ADD MATERIAL -->
+        <record model="ir.ui.view" id="view_sale_order_add_material_form">
+            <field name="name">Sale Order Add MaterialForm</field>
+            <field name="model">sale.order.add.material</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="trans_approve" string="Approve" type="object" confirm="Are you sure to approve?" states="request"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="trans_date"/>
+                            <field name="product_id"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="employee_id"/>
+                            <field name="approved_by"/>
+                            <field name="stock_move_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- WORKSHOP/PARTNER VEHICLE -->
+
+        <record model="ir.ui.view" id="view_partner_vehicle_inherit_form">
+            <field name="name">Partner Vehicle Inherit</field>
+            <field name="model">partner.vehicle</field>
+            <field name="inherit_id" ref="jakc_workshop.view_partner_vehicle_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <notebook>
+                        <page string="Work Order">
+                            <field name="workorder_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date_order"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- WORKORDER/VEHICLE STATUS-->
+
+        <record id="view_sale_order_car_status_form" model="ir.ui.view">
+            <field name="name">sale.order.car.status.form</field>
+            <field name="model">sale.order.car.status</field>
+            <field name="arch" type="xml">
+                <form string="Car Status" editable="state">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="open,done"/>
+                    </header>
+                    <sheet>
+                         <group string="General">
+                            <field name="trans_date_time"/>
+                            <field name="flow_type"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_procurement_order_inherit_form">
+            <field name="name">view.procurement.order.inherit.form</field>
+            <field name="model">procurement.order</field>
+            <field name="inherit_id" ref="procurement.procurement_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='origin']" position="after">
+                     <field name="sale_order_id"/>
+                     <field name="partner_vehicle_id"/>
+                </xpath>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="view_mrp_production_inherit_tree">
+            <field name="name">view.mrp.production.inherit.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='date_planned']" position="after">
+                     <field name="sale_order_id"/>
+                     <field name="partner_vehicle_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_production_inherit_form">
+            <field name="name">view.mrp.production.inherit.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='date_planned']" position="after">
+                     <field name="sale_order_id"/>
+                     <field name="partner_vehicle_id"/>
+                     <field name="routing_wc_line_percentage"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_production_workcenter_inherit_form">
+            <field name="name">view.mrp.production.workcenter.inherit.form</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">draft,startworking,request</attribute>
+                </xpath>
+
+                <xpath expr="//header/field[@name='state']" position="before">
+                    <button name="%(jakc_sale.act_add_image)d" string="Add Image" type="action" class="oe_highlight" states="draft,pause,startworking,request,done"/>
+                    <button name="%(jakc_sale.act_add_operator)d" string="Add Operator" type="action" class="oe_highlight" states="draft,pause,startworking,request"/>
+                    <button name="%(jakc_sale.act_add_material)d" string="Add Material" type="action" class="oe_highlight" states="draft,pause,startworking,request"/>
+                    <button name="button_request_qc" string="Request For QC" states="startworking" class="oe_highlight"/>
+                    <button string="Approved" states="request" class="oe_highlight"/>
+                    <button string="Reject" states="request"/>
+                </xpath>
+
+                 <xpath expr="//field[@name='workcenter_id']" position="after">
+                     <field name="sale_order_id"/>
+                     <field name="partner_vehicle_id"/>
+                </xpath>
+                <notebook position="inside">
+                    <page string="Images">
+                        <field name="attachment_ids"  mode="kanban">
+                            <kanban>
+                                <field name="attachment"/>
+                                <field name="state"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div>
+                                            <span t-esc="record.state.raw_value"/>
+                                        </div>
+                                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                        <!--<div class="oe_kanban_global_click o_res_partner_kanban o_kanban_record">-->
+                                            <a t-if="!read_only_mode" type="edit" class="fa fa-times pull-right"/>
+                                            <div class="o_kanban_workshop_image">
+                                                <img t-if="record.attachment.raw_value" t-att-src="'data:image/png;base64,'+record.attachment.raw_value"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+
+                    <page string="Operator">
+                        <field name="operator01_ids">
+                            <tree>
+                                <field name="operator"/>
+                                <field name="workingdate"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                </notebook>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_production_workcenter_inherit_tree">
+            <field name="name">view.mrp.production.workcenter.inherit.tree</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='date_planned']" position="after">
+                     <field name="sale_order_id"/>
+                     <field name="partner_vehicle_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="act_so_2_mo" model="ir.actions.act_window">
+            <field name="name">Production</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'search_default_sale_order_id': active_id}</field>
+        </record>
+
+        <record id="sale_order_form_buttons" model="ir.ui.view">
+            <field name="name">sale.order.form.buttons</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority" eval="30"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']/*" position="after">
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_inline oe_stat_button" type="action"
+                                name="%(act_so_2_mo)d"
+                                attrs="{'invisible': [('production_count', '=', 0)]}"
+                                icon="fa-gears">
+                            <field string="Production" name="production_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mrp_production_sale_info_search_view" model="ir.ui.view">
+            <field name="name">mrp.production.sale.info.search</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="partner_id" string="Customer"/>
+                    <field name="sale_order_id" string="Sale Order"/>
+                    <field name="partner_vehicle_id" string="Vehicle Number"/>
+                </field>
+                <xpath expr="//search/group/*" position="before">
+                    <filter string="Customer" icon="terp-accessories-archiver"
+                            domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Sale Order" icon="terp-accessories-archiver"
+                            domain="[]" context="{'group_by':'sale_order_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_consume_material_form_view" model="ir.ui.view">
+            <field name="name">sale.order.consume.material.form.view</field>
+            <field name="model">sale.order.consume.material</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="sale_order_id"/>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="quantity_done"/>
+                        </group>
+                        <field name="line_ids">
+                            <tree>
+                                <field name="production_id"/>
+                                <field name="product_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="stock_move_id"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!-- WORKORDER/PAINT CATEGORY-->
+
+        <record id="sale_order_paint_category_form_view" model="ir.ui.view">
+            <field name="name">sale.order.paint.category.form.fiew</field>
+            <field name="model">sale.order.paint.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="standard_price"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_order_paint_category_tree_view" model="ir.ui.view">
+            <field name="name">sale.roder.paint.category.tree.view</field>
+            <field name="model">sale.order.paint.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="standard_price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_sale_order_paint_category" model="ir.actions.act_window">
+            <field name="name">Paint Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.paint.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a Paint Category
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="action_sale_order_paint_category"
+            id="menu_sale_order_paint_category" parent="base.workshop_configuration_menu"
+            sequence="10" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+    </data>
+</openerp>
